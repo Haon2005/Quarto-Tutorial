@@ -1,24 +1,51 @@
 ---
-title: "About"
-filters:
-    - coatless-quarto/pyodide
-    - py-exercise
+title: "Getting Started with Quarto"
 ---
 
-```{py-exercise}
-def add(a, b):
-    # Your solution here
-    pass
-## TESTS ##
-assert add(1, 2) == 3,   "add(1, 2) should return 3"
-assert add(-1, 1) == 0,  "add(-1, 1) should return 0"
-assert add(0, 0) == 0,   "add(0, 0) should return 0"
-```
+::: {.callout-note}
+## Official Documentation
+The official Quarto documentation at **[quarto.org/docs/get-started](https://quarto.org/docs/get-started/)** contains detailed tutorials for all skill levels — always a great place to look for more detail.
+:::
 
-<p> </p>
-Blabla 
+Welcome! This guide walks you through creating real Quarto documents — step by step, like a building manual.
+No prior experience needed.
 
-```{pyodide-python}
-print("hello world")
+---
 
-```
+## What would you like to build?
+
+::: {.grid}
+
+::: {.g-col-4}
+### 🌐 A Website
+Present your course, research, or portfolio as a clean multi-page website.
+
+→ [What you need](beg_website_1.qmd)  
+→ [Create a website](beg_website_2.qmd)  
+→ [Publish online](beg_website_3.qmd)  
+:::
+
+::: {.g-col-4}
+### 📄 An Exercise Sheet
+Create a professional exercise sheet that renders to PDF, HTML, or Word from one file.
+
+→ [What you need](beg_exercise_1.qmd)  
+→ [Create a sheet](beg_exercise_2.qmd)  
+→ [Other formats](beg_exercise_3.qmd)  
+:::
+
+::: {.g-col-4}
+### 📚 A Book
+Structure longer content — lecture notes, a handbook — as a navigable book.
+
+→ [What you need](beg_book_1.qmd)  
+→ [Create a book](beg_book_2.qmd)
+:::
+
+:::
+
+---
+
+## ✨ Want interactive Python code?
+
+If you want students to run and edit Python code directly in the browser (no installation needed for them), check out the [Extensions guide](beg_extensions.qmd).

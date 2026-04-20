@@ -2,7 +2,7 @@ project:
   output-dir: ./docs/int
   render:
     - index.qmd
-    - Qmd Files/Getting Started/*.qmd
+    - "Qmd Files/Getting Started/*.qmd"
 
 
 website:
@@ -12,46 +12,45 @@ website:
       - text: "Overview"
         href: index.qmd
       - text: "Example Page"
-        href: "/beg/Qmd Files/Example Page/index_beg.html"
+        href: "beg/Qmd Files/Example Page/index_beg.html"
       - text: "Getting Started"
-        href: "/int/Qmd Files/Getting Started/getting_started.html"
+        href: "Qmd Files/Getting Started/getting_started.qmd"
       - text: "Tipps and Tricks for Quarto Users"
-        href: "/exp/Qmd Files/Tipps and Tricks/index_exp.html"
+        href: "exp/Qmd Files/Tipps and Tricks/index_exp.html"
   sidebar:
-    - logo: "{{< fa rocket >}}"
-      href: getting_started.qmd
-    - section: Creating a Quarto Website
-      contents: 
-        - href: beg_website_1.qmd
-          text: What you need
-        - href: beg_website_2.qmd
-          text: Create a Website
-        - href: beg_website_3.qmd
-          text: Publish a Website
-    - section: Creating an Exercise Sheet with Quarto
-      contents: 
-        - href: beg_exercise_1.qmd
-          text: What you need
-        - href: beg_exercise_2.qmd
-          text: Create an Exercise Sheet
-        - href: beg_exercise_3.qmd
-          text: Other Formats then PDF
-    - secton: Creating a Quarto Book
-      contents: 
-        - href: beg_book_1.qmd
-          text: What you need
-        - href: beg_book_2.qmd
-          text: Create a Book
-    - section: Creating a Slideshow with Quarto
-      contents: 
-        - href: beg_slideshow_1.qmd
-          text: What you need
-        - href: beg_slideshow_2.qmd
-          text: Create a Slideshow
-        - href: beg_slideshow_3.qmd
-          text: Other Formats
+    - id: getting-started-sidebar
+      style: docked
+      collapse-level: 1
+      contents:
+        - href: "Qmd Files/Getting Started/getting_started.qmd"
+          text: "Overview"
+        - section: Creating a Quarto Website
+          contents:
+            - href: "Qmd Files/Getting Started/beg_website_1.qmd"
+              text: What you need
+            - href: "Qmd Files/Getting Started/beg_website_2.qmd"
+              text: Create a Website
+            - href: "Qmd Files/Getting Started/beg_website_3.qmd"
+              text: Publish a Website
+        - section: Creating an Exercise Sheet with Quarto
+          contents:
+            - href: "Qmd Files/Getting Started/beg_exercise_1.qmd"
+              text: What you need
+            - href: "Qmd Files/Getting Started/beg_exercise_2.qmd"
+              text: Create an Exercise Sheet
+            - href: "Qmd Files/Getting Started/beg_exercise_3.qmd"
+              text: Other Output Formats
+        - section: Creating a Quarto Book
+          contents:
+            - href: "Qmd Files/Getting Started/beg_book_1.qmd"
+              text: What you need
+            - href: "Qmd Files/Getting Started/beg_book_2.qmd"
+              text: Create a Book
+        - section: Interactive Code
+          contents:
+            - href: "Qmd Files/Getting Started/beg_extensions.qmd"
+              text: Interactive Python with Pyodide
 
 format:
   html:
     code-tools: true
-

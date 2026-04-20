@@ -87,3 +87,5 @@ All pages are loosely tied together by the topic **"Exploring Mathematical Funct
 - Mermaid: flowchart of how the computation works
 - Quiz: test understanding of the concept
 - References: cite the relevant mathematical or software sources
+
+## Intermidiate Structure

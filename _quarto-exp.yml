@@ -15,7 +15,7 @@ website:
       - text: "Getting Started"
         href: "/int/Qmd Files/Getting Started/getting_started.html"
       - text: "Tipps and Tricks for Quarto Users"
-        href: "exp/Qmd Files/Tipps and Tricks/index_exp.html"
+        href: "Qmd Files/Tipps and Tricks/index_exp.qmd"
   sidebar:
     - href: index_exp.qmd
       text: What you should know

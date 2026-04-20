@@ -1,0 +1,41 @@
+---
+title: "What you need — Exercise Sheet"
+---
+
+::: {.callout-note}
+## Official Documentation
+See **[quarto.org/docs/output-formats/pdf-basics.html](https://quarto.org/docs/output-formats/pdf-basics.html)** for more about PDF output options.
+:::
+
+To create an exercise sheet you need the same setup as for a website, plus one extra tool if you want PDF output.
+
+---
+
+## Step 1 — VS Code + Quarto extension
+
+If you have not done this yet, follow [What you need — Website](beg_website_1.qmd) and come back here when done.
+
+---
+
+## Step 2 — Install TinyTeX (for PDF output only)
+
+Quarto needs a LaTeX engine to create PDFs. The easiest option is **TinyTeX**, which Quarto can install for you directly from VS Code.
+
+Open the **Terminal** (the command line interface) in VS Code via **View → Terminal**, and run:
+
+```{.bash filename="Terminal"}
+quarto install tinytex
+```
+
+Wait for the installation to finish — this can take a few minutes.
+
+::: {.callout-note}
+If you only want to produce **HTML** or **Word** output, you can skip this step entirely.
+:::
+
+---
+
+::: {.callout-tip}
+## ✅ Ready!
+Continue with [Create an Exercise Sheet →](beg_exercise_2.qmd)
+:::

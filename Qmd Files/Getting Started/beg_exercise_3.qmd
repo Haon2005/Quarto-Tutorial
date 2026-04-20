@@ -1,0 +1,63 @@
+---
+title: "Other Output Formats"
+---
+
+One of Quarto's biggest advantages: **one `.qmd` file → multiple output formats**.
+You write the content once and change only one line to get PDF, HTML, or Word.
+
+---
+
+## Change the format
+
+Open your `.qmd` file and edit the `format:` line in the header block at the top.
+
+**For HTML** (no extra tools needed, works in any browser):
+```yaml
+---
+title: "Exercise Sheet 1"
+format: html
+---
+```
+
+**For Word** (`.docx`, can be edited in Microsoft Word):
+```yaml
+---
+title: "Exercise Sheet 1"
+format: docx
+---
+```
+
+**For PDF** (requires TinyTeX — see [What you need](beg_exercise_1.qmd)):
+```yaml
+---
+title: "Exercise Sheet 1"
+format: pdf
+---
+```
+
+Then run `quarto render` in the terminal. Quarto produces the file in the format you chose.
+
+---
+
+## Produce all formats at once
+
+You can list multiple formats — Quarto will render all of them in one go:
+
+```yaml
+---
+title: "Exercise Sheet 1"
+format:
+  html: default
+  pdf: default
+  docx: default
+---
+```
+
+Run `quarto render` once and you get three output files.
+
+---
+
+::: {.callout-note}
+## Official Documentation
+See all available formats and their options at **[quarto.org/docs/output-formats/all-formats.html](https://quarto.org/docs/output-formats/all-formats.html)**.
+:::

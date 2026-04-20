@@ -1,0 +1,173 @@
+/*-- scss:defaults --*/
+
+/*-- scss:rules --*/
+body {
+  color: #000080c1; /* Marineblau (Navy) für den Fließtext */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #b8aa6e; /* Überschriften in Schwarz */
+}
+
+blockquote, .blockquote {
+  color: #0202cac1 !important;
+  border-left: none;
+  border-top: 2px solid #fd0d0d;
+  border-bottom: 2px solid #fd0d0d;
+  border-radius: 10px;
+}
+
+.theorem.definition {
+  background-color: #ccd1e7;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-top: 1px solid gray;
+  border-right: 1px solid gray;
+  border-bottom: 1px solid gray;
+  border-left: 7px solid #0d6efd;
+}
+
+.theorem {
+  background-color: #ccd1e7;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-top: 1px solid gray;
+  border-right: 1px solid gray;
+  border-bottom: 1px solid gray;
+  border-left: 7px solid #dc3545;
+}
+
+.theorem.example {
+  background-color: #ccd1e7;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-top: 1px solid gray;
+  border-right: 1px solid gray;
+  border-bottom: 1px solid gray;
+  border-left: 7px solid #198754;
+}
+
+.theorem.exercise {
+  background-color: #ccd1e7;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-top: 1px solid gray;
+  border-right: 1px solid gray;
+  border-bottom: 1px solid gray;
+  border-left: 7px solid #fd7e14;
+}
+
+.proof.solution {
+  background-color: #ccd1e7;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-top: 1px solid gray;
+  border-right: 1px solid gray;
+  border-bottom: 1px solid gray;
+  border-left: 7px solid #3fb618;
+}
+
+.proof.remark {
+  background-color: #ccd1e7;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-top: 1px solid gray;
+  border-right: 1px solid gray;
+  border-bottom: 1px solid gray;
+  border-left: 7px solid #ffc107;
+}
+
+i.pencil,
+.pencil .theorem-title::before {
+    content: url("Theme/Icons/pencil.svg");
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    margin-right: 0.25em;
+}
+
+i.python,
+.python .theorem-title::before {
+    content: url("Theme/Icons/python.svg");
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    margin-right: 0.25em;
+}
+
+.proof {
+    color: #5a6570;
+    margin: 0 0 1rem;
+    padding: 0.625rem 1.25rem;
+    border-left: 0.25rem solid #e9ecef;
+}
+
+.aside, .aside *, .margin-note, .margin-note *, .column-margin, .column-margin * {
+  color: #000080 !important;
+}
+
+.callout-header, .callout-header *, .callout-title, .callout-title strong {
+  color: #0475b2 !important;
+}
+
+.nav {
+  --bs-nav-link-padding-x: 1rem;
+  --bs-nav-link-padding-y: 0.5rem;
+  --bs-nav-link-font-weight: ;
+  --bs-nav-link-color: #1a2e69;
+  --bs-nav-link-hover-color: #3a13f8;
+  --bs-nav-link-disabled-color: #6c757d;
+  list-style: none;
+}
+
+.callout {
+  border-top: 1px solid #7f8a99 !important;
+  border-bottom: 1px solid #7f8a99 !important;
+  border-right: 1px solid #7f8a99 !important;
+  background-color: #e6e7cc !important;
+}
+
+.nav-tabs {
+  background-color: #94b6eea8 !important;
+}
+
+/* Anpassungen für Bildunterschriften */
+figcaption, .figure-caption {
+  color: #0101c2c1 !important;
+}
+
+#fig-schema-mermaid .label text,
+#fig-schema-mermaid .nodeLabel,
+#fig-schema-mermaid span {
+  color: #000080 !important;         // ← Textfarbe (braucht !important wegen inline-style)
+  fill:  #000080 !important;         // ← fill für SVG-Text
+}
+
+#fig-schema-mermaid .edgePath .path,
+#fig-schema-mermaid .flowchart-link {
+  stroke:       rgb(131, 130, 131) !important;           // ← Farbe der Linie
+  stroke-width: 3px;               // ← Dicke (Original: 2px)
+}
+
+#fig-schema-mermaid .marker {
+  fill:   rgb(131, 130, 131) !important;                 // ← Rahmen/Fill des Markers
+  stroke: rgb(131, 130, 131) !important;
+}
+
+#fig-schema-mermaid {
+  font-size: 16px;                 // ← Schriftgröße (kannst du anpassen)
+  // font-family: sans-serif;      // ← auskommentiert – Original bleibt
+}
+
+.panel-tabset .tab-content {
+  border-left:   1px solid hsla(238.9, 89.9%, 53.3%, 0.15) !important;
+  border-right:  1px solid hsla(238.9, 89.9%, 53.3%, 0.15) !important;
+  border-bottom: 1px solid hsla(238.9, 89.9%, 53.3%, 0.15) !important;
+}
+
+/* Deutlicheres Highlighting für den aktiven Navbar-Tab */
+.navbar-nav .nav-link.active {
+  color: #3a13f8 !important;
+  font-weight: bold;
+  border-bottom: 2px solid #3a13f8;
+}

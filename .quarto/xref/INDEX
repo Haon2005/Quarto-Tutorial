@@ -34,5 +34,32 @@
   },
   "Qmd Files/Getting Started/getting_started.qmd": {
     "getting_started.html": "43fb75a1"
+  },
+  "Qmd Files/Getting Started/beg_book_1.qmd": {
+    "beg_book_1.html": "7a16957f"
+  },
+  "Qmd Files/Getting Started/beg_book_2.qmd": {
+    "beg_book_2.html": "010e162c"
+  },
+  "Qmd Files/Getting Started/beg_exercise_1.qmd": {
+    "beg_exercise_1.html": "ad37415a"
+  },
+  "Qmd Files/Getting Started/beg_exercise_2.qmd": {
+    "beg_exercise_2.html": "a242a756"
+  },
+  "Qmd Files/Getting Started/beg_exercise_3.qmd": {
+    "beg_exercise_3.html": "bd3b576d"
+  },
+  "Qmd Files/Getting Started/beg_extensions.qmd": {
+    "beg_extensions.html": "9037a84d"
+  },
+  "Qmd Files/Getting Started/beg_website_1.qmd": {
+    "beg_website_1.html": "707bff86"
+  },
+  "Qmd Files/Getting Started/beg_website_2.qmd": {
+    "beg_website_2.html": "32e52162"
+  },
+  "Qmd Files/Getting Started/beg_website_3.qmd": {
+    "beg_website_3.html": "68202bce"
   }
 }
