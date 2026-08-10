@@ -1,0 +1,16 @@
+project:
+  output-dir: ./docs
+  render:
+    - index.qmd
+    - 404.qmd
+
+website:
+  title: "Quarto Tutorial"
+  navbar:
+    left:
+      - text: "Example Page"
+        href: "beg/Qmd Files/Example Page/index_beg.html"
+      - text: "Getting Started"
+        href: "int/Qmd Files/Getting Started/getting_started.html"
+      - text: "Tipps and Tricks for Quarto Users"
+        href: "exp/Qmd Files/Tipps and Tricks/index_exp.html"

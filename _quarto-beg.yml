@@ -13,9 +13,9 @@ website:
       - text: "Example Page"
         href: "Qmd Files/Example Page/index_beg.qmd"
       - text: "Getting Started"
-        href: "/int/Qmd Files/Getting Started/getting_started.html"
+        href: "int/Qmd Files/Getting Started/getting_started.html"
       - text: "Tipps and Tricks for Quarto Users"
-        href: "/exp/index.html"
+        href: "exp/Qmd Files/Tipps and Tricks/index_exp.html"
   sidebar:
     - id: example-sidebar
       title: "Example Pages"

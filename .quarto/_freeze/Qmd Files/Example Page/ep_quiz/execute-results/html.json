@@ -1,10 +1,10 @@
 {
-  "hash": "40359c5f535062a7a2569399b4c1ebd1",
+  "hash": "c1b6d0bc09466f82f6bdd75804099e2b",
   "result": {
     "engine": "jupyter",
-    "markdown": "---\ntitle: \"Quiz\"\nsidebar: example-sidebar\nfilters:\n  - parmsam/quizdown\n---\n\nTest your understanding of the sine function — and Quarto's features.\n\n```{quizdown}\n---\nshuffleAnswers: true\nshuffleQuestions: false\n---\n\n# What is $\\sin(0)$?\n\n1. [x] $0$\n2. [ ] $1$\n3. [ ] $-1$\n4. [ ] undefined\n\n# What is the maximum value of $\\sin(x)$?\n\n1. [ ] $0$\n2. [ ] $\\pi$\n3. [x] $1$\n4. [ ] $2$\n\n# What is the period of $\\sin(x)$?\n\n1. [ ] $\\pi$\n2. [x] $2\\pi$\n3. [ ] $4\\pi$\n4. [ ] $\\frac{\\pi}{2}$\n\n# Which extension makes Python run live in the browser?\n\n1. [x] pyodide\n2. [ ] quizdown\n3. [ ] jsxgraph\n4. [ ] py-exercise\n\n# Which file extension does Quarto use for source files?\n\n1. [ ] `.html`\n2. [ ] `.py`\n3. [x] `.qmd`\n4. [ ] `.tex`\n```\n\n",
+    "markdown": "---\ntitle: \"Quiz\"\nbibliography: references.bib\nsidebar: example-sidebar\nfilters:\n  - parmsam/quizdown\n---\n\nTest your understanding of the sine function — and Quarto's features,\npowered by the [quarto-quizdown](https://github.com/parmsam/quarto-quizdown) extension [@quizdown] by Parmsam.\n\n```{quizdown}\n---\nshuffleAnswers: true\nshuffleQuestions: false\n---\n\n# What is $\\sin(0)$?\n\n1. [x] $0$\n2. [ ] $1$\n3. [ ] $-1$\n4. [ ] undefined\n\n# What is the maximum value of $\\sin(x)$?\n\n1. [ ] $0$\n2. [ ] $\\pi$\n3. [x] $1$\n4. [ ] $2$\n\n# What is the period of $\\sin(x)$?\n\n1. [ ] $\\pi$\n2. [x] $2\\pi$\n3. [ ] $4\\pi$\n4. [ ] $\\frac{\\pi}{2}$\n\n# Which extension makes Python run live in the browser?\n\n1. [x] pyodide-interaktiv\n2. [ ] quizdown\n3. [ ] jsxgraph\n4. [ ] py-exercise\n\n# `pyodide-interaktiv` runs Python in a Web Worker. What does that buy you?\n\n1. [ ] Nothing — it's just a different name for the same engine.\n2. [x] The page stays responsive during execution, and every cell gets a Stop button.\n3. [ ] Code runs on a server instead of in the browser.\n4. [ ] Python code compiles to JavaScript.\n\n# Which file extension does Quarto use for source files?\n\n1. [ ] `.html`\n2. [ ] `.py`\n3. [x] `.qmd`\n4. [ ] `.tex`\n```\n\n",
     "supporting": [
-      "ep_quiz_files"
+      "ep_quiz_files\\figure-html"
     ],
     "filters": [],
     "includes": {}

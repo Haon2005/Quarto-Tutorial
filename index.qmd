@@ -2,9 +2,74 @@
 title: "Quarto Tutorial"
 ---
 
-This is a Tutorial for using Quarto in a creating context.  
+This is a Tutorial for using Quarto in a creating context.
 
-If you never saw a Quarto page before click [here!](../beg/Qmd Files/Example Page/index_beg.html)  
-If you want to *learn* how to create something with Quarto click [here!](../int/Qmd Files/Getting Started/getting_started.html)
-If you already know how to create Quarto Documents and want to become better click [here!](../exp/Qmd Files/Tipps and Tricks/index_exp.html)
+* If you never saw a Quarto page before click [here!](beg/Qmd Files/Example Page/index_beg.html)  
 
+* If you want to *learn* how to create something with Quarto click [here!](int/Qmd Files/Getting Started/getting_started.html)  
+
+* If you already know how to create Quarto Documents and want to become better click [here!](exp/Qmd Files/Tipps and Tricks/index_exp.html)  
+
+
+```{python}
+#| echo: false
+import base64, io, os, tempfile
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from IPython.display import HTML, display
+
+fig, ax = plt.subplots(figsize=(9, 3.5), facecolor="#f8f9fa")
+ax.set_facecolor("#f8f9fa")
+for spine in ["top", "right", "left"]:
+    ax.spines[spine].set_visible(False)
+ax.spines["bottom"].set_position("zero")
+ax.spines["bottom"].set_color("#adb5bd")
+ax.set_xlim(0, 4 * np.pi)
+ax.set_ylim(-1.5, 1.5)
+ax.set_xticks([])
+ax.set_yticks([-1, 0, 1])
+ax.tick_params(axis="y", colors="#adb5bd", labelsize=9)
+ax.yaxis.set_tick_params(length=0)
+
+x = np.linspace(0, 4 * np.pi, 600)
+levels = [
+    ("#0d6efd", "Beginner",     0),
+    ("#198754", "Intermediate", np.pi / 3),
+    ("#6f42c1", "Expert",       2 * np.pi / 3),
+]
+lines = []
+for color, label, _ in levels:
+    line, = ax.plot([], [], lw=2.5, color=color, label=label, alpha=0.9)
+    lines.append(line)
+ax.legend(loc="lower center", ncol=3, framealpha=0, fontsize=11,
+          bbox_to_anchor=(0.5, -0.05))
+
+n = 60
+
+def init():
+    for line in lines:
+        line.set_data([], [])
+    return lines
+
+def animate(i):
+    shift = i * (2 * np.pi / n)
+    for line, (_, _, offset) in zip(lines, levels):
+        line.set_data(x, np.sin(x - shift + offset))
+    return lines
+
+ani = animation.FuncAnimation(fig, animate, init_func=init,
+                               frames=n, interval=50, blit=True)
+tmp = tempfile.NamedTemporaryFile(suffix=".gif", delete=False)
+tmp.close()
+ani.save(tmp.name, writer="pillow", fps=20, dpi=100)
+with open(tmp.name, "rb") as f:
+    b64 = base64.b64encode(f.read()).decode()
+os.unlink(tmp.name)
+plt.close()
+
+display(HTML(
+    f'<img src="data:image/gif;base64,{b64}" '
+    f'style="width:100%;max-width:900px;display:block;margin:1.5rem auto 0;">'
+))
+```

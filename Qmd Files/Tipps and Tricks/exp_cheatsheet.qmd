@@ -1,0 +1,263 @@
+---
+title: "Cheatsheet"
+sidebar: tips-sidebar
+---
+
+A quick reference for everything covered in this section.
+
+---
+
+## YAML — `_quarto.yml` options
+
+### Project
+
+```{.yaml}
+project:
+  type: website       # website | book | manuscript | default
+  output-dir: docs    # where rendered files go
+```
+
+### Execute (global code defaults)
+
+```{.yaml}
+execute:
+  echo: true          # show source code
+  eval: true          # run the code
+  warning: false      # hide warnings
+  error: false        # hide errors
+  freeze: auto        # auto | true | false
+```
+
+### Format
+
+```{.yaml}
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    theme:
+      - cosmo
+      - custom.scss
+    code-fold: true
+    code-tools: true
+    number-sections: false
+  pdf:
+    toc: true
+    documentclass: article
+    geometry: margin=2.5cm
+  docx:
+    toc: true
+```
+
+### Website
+
+```{.yaml}
+website:
+  title: "My Site"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "External"
+        href: https://example.com
+    right:
+      - icon: github
+        href: https://github.com/your/repo
+  sidebar:
+    - id: my-sidebar
+      style: docked        # docked | floating
+      contents:
+        - href: page.qmd
+          text: Page Title
+        - section: "Group"
+          contents:
+            - href: sub.qmd
+              text: Sub-page
+```
+
+### Profiles
+
+```{.yaml}
+profile:
+  default: web
+  group: [web, print, de, en]
+```
+
+---
+
+## QMD — code chunk options
+
+```{.yaml}
+#| echo: false          # hide source code
+#| eval: false          # don't run (show code only)
+#| output: false        # hide output
+#| warning: false       # hide warnings
+#| include: false       # hide everything (no trace in output)
+#| code-fold: true      # true | false — collapsible code block
+#| code-summary: "Show the code"
+#| fig-cap: "My figure"
+#| fig-align: center    # left | center | right
+#| label: fig-myplot    # for cross-referencing
+```
+
+### Cross-reference labels
+
+| Type | Label prefix | Reference |
+|---|---|---|
+| Figure | `fig-` | `@fig-myplot` |
+| Table | `tbl-` | `@tbl-mydata` |
+| Section | `sec-` (on heading) | `@sec-intro` |
+
+---
+
+## QMD — conditional content
+
+```{.markdown}
+::: {.content-visible when-profile="de"}
+Nur auf Deutsch sichtbar.
+:::
+
+::: {.content-hidden when-format="pdf"}
+Not in PDF.
+:::
+```
+
+---
+
+## QMD — Markdown elements
+
+### Callouts
+
+```{.markdown}
+::: {.callout-note}
+::: {.callout-tip}
+::: {.callout-warning}
+::: {.callout-important}
+::: {.callout-caution}
+
+::: {.callout-tip collapse="true"}
+## Title
+Hidden by default.
+:::
+```
+
+### Shortcodes
+
+```{.markdown}
+{{</* include other-file.qmd */>}}   ← embed another file
+{{</* pagebreak */>}}                ← force page break (PDF)
+{{</* kbd Ctrl+C */>}}               ← keyboard shortcut styling
+```
+
+### Grid layout
+
+```{.markdown}
+::: {.grid}
+::: {.g-col-6}
+Left column (half width)
+:::
+::: {.g-col-6}
+Right column (half width)
+:::
+:::
+```
+
+Column widths are in 12ths: `g-col-4` = one third, `g-col-6` = half, `g-col-12` = full.
+
+---
+
+## Extensions — syntax summary
+
+### quizdown
+
+````{.markdown}
+```{quizdown}
+# Question text?
+1. [x] Correct answer
+1. [ ] Wrong answer
+```
+````
+
+### Pyodide
+
+````{.markdown}
+```{pyodide-python}
+#| autorun: false
+#| read-only: false
+print("runs in browser")
+```
+````
+
+### py-exercise
+
+````{.markdown}
+```{py-exercise}
+#| forbidden-keywords: for, while
+def my_func(x):
+    pass        # student fills this in
+
+## TESTS ##
+assert my_func(2) == 4
+```
+````
+
+### math-exercise
+
+````{.markdown}
+```{math-exercise}
+#| vars: r
+#| mode: equivalent
+Area of a circle with r = 3: _[pi*9]
+```
+````
+
+### JSXGraph
+
+````{.markdown}
+```jsxgraph
+var board = JXG.JSXGraph.initBoard(BOARDID, {
+    boundingbox: [-5, 5, 5, -5], axis: true
+});
+board.create('functiongraph', [Math.sin]);
+```
+````
+
+---
+
+## CSS — Bootstrap utility classes
+
+| Class | Effect |
+|---|---|
+| `.text-center` | Centre text |
+| `.text-muted` | Grey text |
+| `.text-white` | White text |
+| `.fw-bold` | Bold |
+| `.border` | Border |
+| `.rounded` | Rounded corners |
+| `.shadow` | Drop shadow |
+| `.bg-light` | Light background |
+| `.bg-primary` | Primary colour background |
+| `.p-{0-5}` | Padding all sides |
+| `.m-{0-5}` | Margin all sides |
+| `.mt-{0-5}` / `.mb-{0-5}` | Margin top / bottom |
+| `.d-flex` | Flexbox container |
+| `.gap-{0-5}` | Gap between flex items |
+| `.justify-content-center` | Centre flex items |
+
+## CSS — SCSS variable reference
+
+```{.scss}
+/*-- scss:defaults --*/
+$primary:            #0d6efd;
+$body-bg:            #ffffff;
+$body-color:         #212529;
+$font-family-base:   "Inter", sans-serif;
+$font-size-base:     1rem;
+$headings-font-weight: 600;
+$border-radius:      0.375rem;
+$border-color:       #dee2e6;
+
+/*-- scss:rules --*/
+/* your custom CSS here */
+```

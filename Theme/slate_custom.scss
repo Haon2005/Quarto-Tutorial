@@ -2,7 +2,7 @@
 
 /*-- scss:rules --*/
 body {
-  color: #fcfcfd; /* Marineblau (Navy) für den Fließtext */
+  color: #ddd0a0; /* Warm sandy gold — leicht gelblicher Fließtext auf dunklem Hintergrund */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -106,6 +106,12 @@ i.python,
   color: #d3d3d3 !important;
 }
 
+/* Navbar — dark mode (counters the morph !important rule) */
+body.quarto-dark .navbar {
+  background-color: #323842 !important;
+  border-bottom: 1px solid #3d4449 !important;
+}
+
 .nav-tabs {
   background-color: #323842 !important;
 }
@@ -114,6 +120,38 @@ i.python,
   border-left:   1px solid rgba(0,0,0,.6) !important;
   border-right:  1px solid rgba(0,0,0,.6) !important;
   border-bottom: 1px solid rgba(0,0,0,.6) !important;
+}
+
+/* Callout — slightly lifted from the dark page background */
+.callout {
+  background-color: #363b44 !important;
+  border-top:   1px solid #4a5060 !important;
+  border-bottom: 1px solid #4a5060 !important;
+  border-right:  1px solid #4a5060 !important;
+}
+
+/* Source Code Blocks */
+div.sourceCode{
+  background-color: rgba(52, 52, 62, 0.65);
+}
+
+/* All mermaid diagrams — general rules (same selectors as #fig-schema-mermaid, without the ID) */
+.label text,
+.nodeLabel,
+.mermaid span {
+  color: #ddd0a0 !important;
+  fill:  #ddd0a0 !important;
+}
+
+.edgePath .path,
+.flowchart-link {
+  stroke:       #8899bb !important;
+  stroke-width: 3px;
+}
+
+.marker {
+  fill:   #8899bb !important;
+  stroke: #8899bb !important;
 }
 
 .callout-header, .callout-header *, .callout-title, .callout-title strong {
@@ -128,8 +166,8 @@ figcaption, .figure-caption {
 #fig-schema-mermaid .label text,
 #fig-schema-mermaid .nodeLabel,
 #fig-schema-mermaid span {
-  color: white !important;         // ← Textfarbe (braucht !important wegen inline-style)
-  fill:  white !important;         // ← fill für SVG-Text
+  color: #ddd0a0 !important;         // ← Textfarbe (braucht !important wegen inline-style)
+  fill:  #ddd0a0 !important;         // ← fill für SVG-Text
 }
 
 #fig-schema-mermaid .edgePath .path,

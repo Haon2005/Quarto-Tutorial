@@ -57,7 +57,7 @@
     "href": "Qmd Files/Example Page/ep_quiz.html",
     "title": "Quiz",
     "section": "",
-    "text": "Test your understanding of the sine function — and Quarto’s features.\n\n---\nshuffleAnswers: true\nshuffleQuestions: false\n---\n\n# What is $\\sin(0)$?\n\n1. [x] $0$\n2. [ ] $1$\n3. [ ] $-1$\n4. [ ] undefined\n\n# What is the maximum value of $\\sin(x)$?\n\n1. [ ] $0$\n2. [ ] $\\pi$\n3. [x] $1$\n4. [ ] $2$\n\n# What is the period of $\\sin(x)$?\n\n1. [ ] $\\pi$\n2. [x] $2\\pi$\n3. [ ] $4\\pi$\n4. [ ] $\\frac{\\pi}{2}$\n\n# Which extension makes Python run live in the browser?\n\n1. [x] pyodide\n2. [ ] quizdown\n3. [ ] jsxgraph\n4. [ ] py-exercise\n\n# Which file extension does Quarto use for source files?\n\n1. [ ] `.html`\n2. [ ] `.py`\n3. [x] `.qmd`\n4. [ ] `.tex`",
+    "text": "Test your understanding of the sine function — and Quarto’s features, powered by the quarto-quizdown extension (Sauer 2023) by Parmsam.\n\n---\nshuffleAnswers: true\nshuffleQuestions: false\n---\n\n# What is $\\sin(0)$?\n\n1. [x] $0$\n2. [ ] $1$\n3. [ ] $-1$\n4. [ ] undefined\n\n# What is the maximum value of $\\sin(x)$?\n\n1. [ ] $0$\n2. [ ] $\\pi$\n3. [x] $1$\n4. [ ] $2$\n\n# What is the period of $\\sin(x)$?\n\n1. [ ] $\\pi$\n2. [x] $2\\pi$\n3. [ ] $4\\pi$\n4. [ ] $\\frac{\\pi}{2}$\n\n# Which extension makes Python run live in the browser?\n\n1. [x] pyodide-interaktiv\n2. [ ] quizdown\n3. [ ] jsxgraph\n4. [ ] py-exercise\n\n# `pyodide-interaktiv` runs Python in a Web Worker. What does that buy you?\n\n1. [ ] Nothing — it's just a different name for the same engine.\n2. [x] The page stays responsive during execution, and every cell gets a Stop button.\n3. [ ] Code runs on a server instead of in the browser.\n4. [ ] Python code compiles to JavaScript.\n\n# Which file extension does Quarto use for source files?\n\n1. [ ] `.html`\n2. [ ] `.py`\n3. [x] `.qmd`\n4. [ ] `.tex`\n\n\n\n\n\nReferences\n\nSauer, Patrick. 2023. “Quarto-Quizdown: Quizdown Extension for Quarto.” https://github.com/parmsam/quarto-quizdown.",
     "crumbs": [
       "Overview",
       "Quiz"
@@ -97,11 +97,55 @@
     ]
   },
   {
+    "objectID": "Qmd Files/Example Page/ep_code.html#cells-share-state",
+    "href": "Qmd Files/Example Page/ep_code.html#cells-share-state",
+    "title": "Code",
+    "section": "Cells Share State",
+    "text": "Cells Share State\nEvery cell on a page runs in the same Python interpreter — a later cell can reuse a variable from an earlier one without re-importing or redefining it:\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "Overview",
+      "Code"
+    ]
+  },
+  {
+    "objectID": "Qmd Files/Example Page/ep_code.html#interactive-input",
+    "href": "Qmd Files/Example Page/ep_code.html#interactive-input",
+    "title": "Code",
+    "section": "Interactive input()",
+    "text": "Interactive input()\nCells support real, blocking input() — the page stays responsive while it waits for you to type:\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "Overview",
+      "Code"
+    ]
+  },
+  {
+    "objectID": "Qmd Files/Example Page/ep_code.html#animation",
+    "href": "Qmd Files/Example Page/ep_code.html#animation",
+    "title": "Code",
+    "section": "Animation",
+    "text": "Animation\nA Matplotlib FuncAnimation plays right in the page — the code is exactly what you would write in a local IDE, no extra call needed:\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\ninterval is the delay between frames in milliseconds and controls the speed — 33 ms is roughly 30 fps. Matplotlib’s default is 200 ms, which looks noticeably choppy. frames only sets how many frames are drawn, so raising it makes the animation longer, not smoother.\nIf you need a different format or frame rate, zeige_animation(ani, format=\"gif\") and zeige_animation(ani, fps=30) are still available.",
+    "crumbs": [
+      "Overview",
+      "Code"
+    ]
+  },
+  {
     "objectID": "Qmd Files/Example Page/ep_code.html#editable-exercise",
     "href": "Qmd Files/Example Page/ep_code.html#editable-exercise",
     "title": "Code",
     "section": "Editable Exercise",
-    "text": "Editable Exercise\nComplete the function — tests run automatically on checking your solution:\n\n  \n    Please enable JavaScript to load the interactive exercise.\n  \n\n\n→ See the result plotted on the Visualizations page.",
+    "text": "Editable Exercise\nComplete the function — tests run automatically on checking your solution:\n\n  \n    Please enable JavaScript to load the interactive exercise.",
+    "crumbs": [
+      "Overview",
+      "Code"
+    ]
+  },
+  {
+    "objectID": "Qmd Files/Example Page/ep_code.html#math-exercise",
+    "href": "Qmd Files/Example Page/ep_code.html#math-exercise",
+    "title": "Code",
+    "section": "Math Exercise",
+    "text": "Math Exercise\nA different kind of check — symbolic answers, evaluated with SymPy instead of unit tests:\n\nSine at a special angle\n\n\nWhat is $\\sin(90°)$, exactly? \n\n  ✓ Check\n  ⓘ Input help\n  \n    💬 Feedback\n    ⚙\n  \n\n\n\n\n\n→ See the result plotted on the Visualizations page.",
     "crumbs": [
       "Overview",
       "Code"
@@ -112,7 +156,7 @@
     "href": "index.html",
     "title": "Quarto Tutorial",
     "section": "",
-    "text": "This is a Tutorial for using Quarto in a creating context.\nIf you never saw a Quarto page before click here!\nIf you want to learn how to create something with Quarto click here! If you already know how to create Quarto Documents and want to become better click here!"
+    "text": "This is a Tutorial for using Quarto in a creating context.\n\nIf you never saw a Quarto page before click here!\nIf you want to learn how to create something with Quarto click here!\nIf you already know how to create Quarto Documents and want to become better click here!"
   },
   {
     "objectID": "Qmd Files/Example Page/ep_layout.html",
@@ -185,7 +229,7 @@
     "href": "Qmd Files/Example Page/ep_references.html#tools-used-in-this-example",
     "title": "References",
     "section": "Tools Used in This Example",
-    "text": "Tools Used in This Example\nAll interactive features on this site are powered by open-source tools:\n\nQuarto (Posit Software, PBC 2022) — the publishing system behind this entire site\nPyodide (Droettboom et al. 2021) — runs Python directly in the browser (see Code)\nJSXGraph (Miller 2023) — interactive mathematics in the browser (see Visualizations)",
+    "text": "Tools Used in This Example\nAll interactive features on this site are powered by open-source tools:\n\nQuarto (Posit Software, PBC 2022) — the publishing system behind this entire site\nPyodide (Droettboom et al. 2021) — runs Python directly in the browser (see Code)\nJSXGraph (Miller 2023) — interactive mathematics in the browser (see Visualizations)\nquizdown (Sauer 2023) — interactive multiple-choice quizzes in the browser (see Quiz)",
     "crumbs": [
       "Overview",
       "References"

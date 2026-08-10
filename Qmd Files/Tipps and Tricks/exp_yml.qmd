@@ -1,0 +1,341 @@
+---
+title: "The YML File"
+sidebar: tips-sidebar
+---
+
+The `_quarto.yml` file is the control centre of your Quarto project.
+Everything you set here applies globally — unless overridden in a specific `.qmd` file or profile.
+
+::: {.callout-note}
+## Official Reference
+**[quarto.org/docs/reference/projects/websites](https://quarto.org/docs/reference/projects/websites.html)**
+:::
+
+---
+
+## Output formats
+
+Quarto can render the same source to multiple formats at once:
+
+```{.yaml filename="_quarto.yml"}
+format:
+  html:
+    toc: true
+    theme: cosmo
+  pdf:
+    toc: true
+    documentclass: article
+  docx:
+    toc: true
+```
+
+Run all formats: `quarto render`
+Run one format: `quarto render --to pdf`
+
+::: {.callout-tip}
+Any format option can be overridden per page in the `.qmd` file's own YAML frontmatter.
+:::
+
+---
+
+## Execute & freeze
+
+```{.yaml filename="_quarto.yml"}
+execute:
+  echo: true        # show source code
+  eval: true        # run the code
+  warning: false    # suppress warnings
+  freeze: auto      # re-run only when source changes
+```
+
+| `freeze` value | Behaviour |
+|---|---|
+| `false` | Always re-execute |
+| `true` | Never re-execute — use cached output |
+| `auto` | Re-execute only when the `.qmd` file changes |
+
+Frozen results are stored in `_freeze/` — commit this folder so collaborators don't need to re-run everything.
+
+::: {.callout-warning}
+`freeze: auto` watches the `.qmd` file, not your data files.
+If you update a CSV but not the `.qmd`, delete the matching folder in `_freeze/` to force a re-run.
+:::
+
+---
+
+## Profiles
+
+Profiles let you maintain multiple build variants — different audiences, languages, or formats — from one project.
+
+```{.yaml filename="_quarto.yml"}
+profile:
+  default: web
+  group: [web, print]
+```
+
+Each profile has its own config file `_quarto-<name>.yml` that overrides or extends the root config:
+
+```{.yaml filename="_quarto-print.yml"}
+project:
+  output-dir: docs/print
+format:
+  pdf:
+    toc: true
+```
+
+Render a specific profile:
+
+```{.bash}
+quarto render --profile print
+```
+
+::: {.callout-tip}
+This entire tutorial is built with three profiles — `beg`, `int`, and `exp` — each with its own sidebar, navbar, and output folder.
+:::
+
+---
+
+## Sidebar {#sidebar}
+
+### Basic setup
+
+```{.yaml filename="_quarto.yml"}
+website:
+  sidebar:
+    - id: my-sidebar
+      style: docked       # docked | floating
+      collapse-level: 1   # how many levels are expanded by default
+      contents:
+        - href: page.qmd
+          text: "Page Title"
+```
+
+### Sections — collapsible groups
+
+Use `section:` to create collapsible groups in the sidebar.
+A section can have its own overview page (`href`) or just be a label:
+
+```{.yaml}
+contents:
+  - section: "Chapter 1"          # label only, no page
+    contents:
+      - href: ch1/part1.qmd
+        text: Part 1
+
+  - section: "Chapter 2"
+    href: ch2/index.qmd           # clicking the section title opens this page
+    contents:
+      - href: ch2/part1.qmd
+        text: Part 1
+```
+
+### Collapse level
+
+`collapse-level` controls how many nesting levels are **expanded** when the page loads:
+
+| Value | Effect |
+|---|---|
+| `1` | Only top-level items visible, all sections collapsed |
+| `2` | Top level and first-level sections expanded |
+| `3` | Everything expanded |
+
+```{.yaml}
+sidebar:
+  collapse-level: 1   # start collapsed — reader expands what they need
+```
+
+### Collapsible sidebar (hide/show)
+
+To allow readers to collapse the sidebar entirely, use:
+
+```{.yaml filename="_quarto.yml"}
+format:
+  html:
+    sidebar: true    # this is the default
+```
+
+For a floating sidebar that can be dismissed:
+
+```{.yaml}
+website:
+  sidebar:
+    style: floating
+```
+
+---
+
+## Styles & CSS {#styles--css}
+
+### Choosing a theme
+
+Quarto uses [Bootswatch](https://bootswatch.com/) themes for HTML output:
+
+```{.yaml filename="_quarto.yml"}
+format:
+  html:
+    theme: cosmo
+```
+
+Popular themes: `default`, `cosmo`, `flatly`, `lumen`, `minty`, `sandstone`, `simplex`, `slate` (dark), `solar` (dark), `superhero` (dark).
+
+### Light / dark toggle
+
+```{.yaml filename="_quarto.yml"}
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly
+```
+
+Quarto adds a toggle button to the navbar automatically.
+
+### Adding custom CSS on top of a theme
+
+```{.yaml filename="_quarto.yml"}
+format:
+  html:
+    theme:
+      - cosmo
+      - custom.scss
+```
+
+Create `custom.scss` next to `_quarto.yml`:
+
+```{.scss filename="custom.scss"}
+/*-- scss:defaults --*/
+/* Override Bootstrap design tokens */
+$primary: #0d6efd;
+$font-size-base: 1rem;
+$headings-font-weight: 600;
+
+/*-- scss:rules --*/
+/* Regular CSS rules */
+h2 {
+  border-bottom: 2px solid $primary;
+  padding-bottom: 0.25rem;
+}
+```
+
+The two section markers are required by Quarto:
+
+| Section | Purpose |
+|---|---|
+| `/*-- scss:defaults --*/` | Override Bootstrap SCSS variables |
+| `/*-- scss:rules --*/` | Write plain CSS rules |
+
+### Key SCSS variables
+
+```{.scss}
+/*-- scss:defaults --*/
+$primary:             #0d6efd;
+$body-bg:             #ffffff;
+$body-color:          #212529;
+$font-family-base:    "Inter", sans-serif;
+$font-size-base:      1rem;
+$headings-font-weight: 600;
+$border-radius:       0.375rem;
+```
+
+### Targeting dark mode
+
+```{.scss filename="custom.scss"}
+/*-- scss:rules --*/
+[data-bs-theme="dark"] .my-box {
+  background-color: #1e1e2e;
+}
+```
+
+### Custom callout icon — a practical CSS example
+
+A callout can get a completely custom icon by combining a custom CSS class with a small style block.
+
+:::: {.content-visible when-format="html"}
+The callout below **is** the live result — the 🎨 icon is added entirely via CSS:
+
+```{=html}
+<style>
+.palette-callout > .callout-header .callout-icon-container {
+  display: flex;
+  align-items: center;
+}
+.palette-callout > .callout-header .callout-icon-container::before {
+  content: "🎨";
+  font-size: 1.1rem;
+  margin-right: 0.4rem;
+  font-style: normal;
+}
+.palette-callout > .callout-header .callout-icon-container svg {
+  display: none;
+}
+</style>
+```
+
+::: {.callout-tip .palette-callout}
+## Custom icon via CSS
+This callout uses the `.palette-callout` class. The 🎨 icon is injected with `::before` — the default SVG is hidden with `display: none`.
+:::
+::::
+
+:::: {.content-hidden when-format="html"}
+::: {.callout-note}
+## Live demo — HTML only
+The custom icon demo uses a `{=html}` style block which is ignored in this format. Render as HTML to see the 🎨 icon injected via CSS.
+:::
+::::
+
+The code that produces it:
+
+````{.markdown}
+::: {.callout-tip .palette-callout}
+## Custom icon via CSS
+Content here.
+:::
+````
+
+```{.scss filename="custom.scss"}
+/*-- scss:rules --*/
+.palette-callout > .callout-header .callout-icon-container::before {
+  content: "🎨";
+  font-size: 1.1rem;
+  margin-right: 0.4rem;
+}
+.palette-callout > .callout-header .callout-icon-container svg {
+  display: none;
+}
+```
+
+::: {.callout-tip collapse="true"}
+## Very nice to know — Inspect with F12
+
+Before you can change a style, you need to know which CSS class to target.
+
+**① Open your rendered HTML in a browser.**
+
+**② Press `F12`** → click the cursor icon → hover over the element you want to style.
+
+**③ In the HTML panel**, you will see the element and its classes:
+```{.html}
+<h2 class="anchored" id="my-section">My Section</h2>
+```
+
+**④ In the Styles panel**, you see which CSS rules apply and from which stylesheet.
+
+**⑤ Click any value to edit it live** — the page updates instantly so you can experiment before writing any code.
+:::
+
+::: {.callout-note}
+## <i class="python"></i> Icons work in callout headings too
+
+Custom icons from `Theme/Icons/` render anywhere Quarto accepts inline HTML — including callout titles. The `<i class="python"></i>` above is produced entirely by the CSS rule in your SCSS:
+
+```{.scss}
+i.python {
+  content: url("Theme/Icons/python.svg");
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+  margin-right: 0.25em;
+}
+```
+:::

@@ -28,3 +28,4 @@ All interactive features on this site are powered by open-source tools:
 - **Quarto** [@quarto] — the publishing system behind this entire site
 - **Pyodide** [@pyodide] — runs Python directly in the browser (see [Code](ep_code.qmd))
 - **JSXGraph** [@jsxgraph] — interactive mathematics in the browser (see [Visualizations](ep_visuals.qmd))
+- **quizdown** [@quizdown] — interactive multiple-choice quizzes in the browser (see [Quiz](ep_quiz.qmd))

@@ -1,65 +1,77 @@
 {
-  "getting_started.qmd": {
-    "getting_started.html": "7190dba0"
-  },
-  "example_page.qmd": {
-    "example_page.html": "7ded4922"
-  },
-  "Plans.md": {
-    "Plans.html": "b85cffc1"
-  },
-  "index.qmd": {
-    "index.html": "6aca94d4"
-  },
   "Qmd Files/Example Page/ep_code.qmd": {
-    "ep_code.html": "f71601f0"
-  },
-  "Qmd Files/Example Page/ep_layout.qmd": {
-    "ep_layout.html": "01c20801"
+    "ep_code.html": "96348cd5"
   },
   "Qmd Files/Example Page/ep_quiz.qmd": {
-    "ep_quiz.html": "96ec5a63"
+    "ep_quiz.html": "2640469a"
+  },
+  "index.qmd": {
+    "index.html": "2a132a5d"
+  },
+  "Qmd Files/Example Page/ep_layout.qmd": {
+    "ep_layout.html": "5265112b"
   },
   "Qmd Files/Example Page/ep_references.qmd": {
-    "ep_references.html": "68c1d43f"
+    "ep_references.html": "c9f964e1"
   },
   "Qmd Files/Example Page/ep_visuals.qmd": {
-    "ep_visuals.html": "a32c27dc"
+    "ep_visuals.html": "9f7a2950"
   },
   "Qmd Files/Example Page/example_page.qmd": {
-    "example_page.html": "91454711"
+    "example_page.html": "dbfaf514"
   },
   "Qmd Files/Example Page/index_beg.qmd": {
-    "index_beg.html": "c1d8cd58"
-  },
-  "Qmd Files/Getting Started/getting_started.qmd": {
-    "getting_started.html": "43fb75a1"
+    "index_beg.html": "e06bf303"
   },
   "Qmd Files/Getting Started/beg_book_1.qmd": {
-    "beg_book_1.html": "7a16957f"
+    "beg_book_1.html": "73e6f7e5"
   },
   "Qmd Files/Getting Started/beg_book_2.qmd": {
-    "beg_book_2.html": "010e162c"
+    "beg_book_2.html": "6719eaf7"
   },
   "Qmd Files/Getting Started/beg_exercise_1.qmd": {
-    "beg_exercise_1.html": "ad37415a"
+    "beg_exercise_1.html": "acafca45"
   },
   "Qmd Files/Getting Started/beg_exercise_2.qmd": {
-    "beg_exercise_2.html": "a242a756"
+    "beg_exercise_2.html": "c64ab7bc"
   },
   "Qmd Files/Getting Started/beg_exercise_3.qmd": {
-    "beg_exercise_3.html": "bd3b576d"
+    "beg_exercise_3.html": "5ac248b2"
   },
   "Qmd Files/Getting Started/beg_extensions.qmd": {
-    "beg_extensions.html": "9037a84d"
+    "beg_extensions.html": "42dbe7fe"
   },
   "Qmd Files/Getting Started/beg_website_1.qmd": {
-    "beg_website_1.html": "707bff86"
+    "beg_website_1.html": "15481311"
   },
   "Qmd Files/Getting Started/beg_website_2.qmd": {
-    "beg_website_2.html": "32e52162"
+    "beg_website_2.html": "591822c3"
   },
   "Qmd Files/Getting Started/beg_website_3.qmd": {
-    "beg_website_3.html": "68202bce"
+    "beg_website_3.html": "0d1663f6"
+  },
+  "Qmd Files/Getting Started/getting_started.qmd": {
+    "getting_started.html": "9fe39dd9"
+  },
+  "404.qmd": {
+    "404.html": "cf20a878"
+  },
+  "Qmd Files/Tipps and Tricks/exp_cheatsheet.qmd": {
+    "exp_cheatsheet.html": "9b13b6ec"
+  },
+  "Qmd Files/Tipps and Tricks/exp_extensions.qmd": {
+    "exp_extensions.html": "a074533d"
+  },
+  "Qmd Files/Tipps and Tricks/exp_multilanguage.qmd": {
+    "exp_multilanguage.html": "b47741c5"
+  },
+  "Qmd Files/Tipps and Tricks/exp_qmd.qmd": {
+    "exp_qmd.html": "cb267313"
+  },
+  "Qmd Files/Tipps and Tricks/exp_yml.qmd": {
+    "exp_yml.html": "558577e3"
+  },
+  "Qmd Files/Tipps and Tricks/index_exp.qmd": {
+    "index_exp.html": "a4b387de"
   }
 }

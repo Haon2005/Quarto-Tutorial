@@ -2,8 +2,9 @@
 -- py-exercise.lua
 --
 -- Quarto filter extension for interactive Python exercises with hidden unit tests.
--- Depends on the coatless-quarto/pyodide extension for the Pyodide runtime and
--- Monaco editor. Declare both filters in the document (pyodide first, py-exercise second).
+-- Works standalone (loads Pyodide + Monaco from CDN automatically) or combined with
+-- a Pyodide extension (coatless-quarto/pyodide, Erasmus-CTM/pyodide-feedback) —
+-- in that case declare the Pyodide filter first, py-exercise second.
 --
 -- Syntax:
 --
@@ -47,6 +48,12 @@ local globalShowTestHints = true
 
 -- Language / locale (default: English)
 local lang = "en"
+
+-- Supported locales. Extend this set together with LOCALES in py-exercise.js.
+local supportedLangs = {
+  ["en"] = true,
+  ["de"] = true
+}
 
 -- Noscript messages per locale
 local noscriptMessages = {
@@ -119,6 +126,32 @@ local function mergeLists(base, extra)
 end
 
 ----
+-- Helper: parse #| key: value lines
+----
+local function parseBlockOptions(text)
+  local opts  = {}
+  local lines = {}
+  for line in text:gmatch("([^\r\n]*)") do
+    local k, v = line:match("^#|%s*(.-):%s*(.-)%s*$")
+    if k and v then opts[k] = v
+    else table.insert(lines, line) end
+  end
+  return table.concat(lines, "\n"), opts
+end
+
+----
+-- Helper: split on ## TESTS ## sentinel
+----
+local function splitCode(code)
+  local starter, tests =
+    code:match("^(.-)\n[ \t]*##[ \t]*[Tt][Ee][Ss][Tt][Ss][ \t]*##[ \t]*\n(.-)$")
+  if starter then
+    return starter:match("^%s*(.-)%s*$"), tests:match("^%s*(.-)%s*$")
+  end
+  return code:match("^%s*(.-)%s*$"), ""
+end
+
+----
 -- Inject the extension's CSS (in <head>) and JS (after <body>) exactly once.
 -- Also injects the runtime config object into before-body.
 ----
@@ -147,9 +180,47 @@ local function ensureExerciseSetup()
 end
 
 ----
+-- Determine the UI language for this render pass.
+--
+-- Order of precedence:
+--   1. `py-exercise: lang: xx`  – explicit override
+--   2. Quarto's own `lang:`     – set per profile in a multilingual project
+--   3. "en"                     – fallback
+--
+-- Region subtags are dropped ("de-DE" -> "de"); unsupported languages fall
+-- back to English instead of failing the render.
+----
+local function resolveLang(meta)
+  local raw = nil
+
+  local cfg = meta["py-exercise"]
+  if cfg and cfg["lang"] then
+    raw = pandoc.utils.stringify(cfg["lang"])
+  elseif meta["lang"] then
+    raw = pandoc.utils.stringify(meta["lang"])
+  end
+
+  if raw == nil or raw == "" then
+    return "en"
+  end
+
+  local base = raw:lower():match("^(%a+)")
+  if base and supportedLangs[base] then
+    return base
+  end
+
+  return "en"
+end
+
+----
 -- Phase 1 – Meta: read global options from document YAML front matter.
 ----
-function Meta(meta)
+local function Meta(meta)
+  -- Resolve the language first: it must also work for documents that only set
+  -- Quarto's `lang:` and have no `py-exercise:` block, so this happens before
+  -- the early return below.
+  lang = resolveLang(meta)
+
   if not meta["py-exercise"] then return meta end
   local cfg = meta["py-exercise"]
 
@@ -166,17 +237,13 @@ function Meta(meta)
   if cfg["show-test-hints"] then
     globalShowTestHints = not (pandoc.utils.stringify(cfg["show-test-hints"]) == "false")
   end
-  if cfg["lang"] then
-    lang = pandoc.utils.stringify(cfg["lang"])
-  end
-
   return meta
 end
 
 ----
 -- Phase 2 – CodeBlock: transform {py-exercise} code blocks.
 ----
-function CodeBlock(el)
+local function CodeBlock(el)
   if not quarto.doc.is_format("html") then return el end
   if not el.attr.classes:includes("{py-exercise}") then return el end
 
@@ -225,32 +292,6 @@ function CodeBlock(el)
   }, "\n")
 
   return pandoc.RawBlock("html", html)
-end
-
-----
--- Helper: parse #| key: value lines
-----
-function parseBlockOptions(text)
-  local opts  = {}
-  local lines = {}
-  for line in text:gmatch("([^\r\n]*)") do
-    local k, v = line:match("^#|%s*(.-):%s*(.-)%s*$")
-    if k and v then opts[k] = v
-    else table.insert(lines, line) end
-  end
-  return table.concat(lines, "\n"), opts
-end
-
-----
--- Helper: split on ## TESTS ## sentinel
-----
-function splitCode(code)
-  local starter, tests =
-    code:match("^(.-)\n[ \t]*##[ \t]*[Tt][Ee][Ss][Tt][Ss][ \t]*##[ \t]*\n(.-)$")
-  if starter then
-    return starter:match("^%s*(.-)%s*$"), tests:match("^%s*(.-)%s*$")
-  end
-  return code:match("^%s*(.-)%s*$"), ""
 end
 
 return {

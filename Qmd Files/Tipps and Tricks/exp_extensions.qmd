@@ -1,0 +1,774 @@
+---
+title: "Extensions"
+sidebar: tips-sidebar
+bibliography: ../../Qmd Files/Example Page/references.bib
+filters:
+  - parmsam/quizdown
+  - pyodide-interaktiv
+  - py-exercise
+  - math-exercise
+  - jsxgraph/jsxgraph
+---
+
+This chapter covers the extensions used in this tutorial.
+Most extensions are installed once per project with `quarto add <name>` — the files land in `_extensions/` and should be committed to git.
+
+| Extension | What it adds | Install |
+|---|---|---|
+| [quizdown](#quizdown-interactive-quizzes) | Multiple-choice, multi-select and ordering quizzes | `quarto add parmsam/quizdown` |
+| [Pyodide](#pyodide-live-python-in-the-browser) | Editable Python cells that run in the browser | `quarto add coatless-quarto/pyodide` |
+| [pyodide-interaktiv](#pyodide-interaktiv-the-fork-this-tutorial-runs-on) | Same cells, but in a Web Worker — `input()`, animations, Stop, AI feedback | copy the folder (not published yet) |
+| [py-exercise](#py-exercise-editable-exercises-with-hidden-tests) | Coding exercises with hidden `assert` tests | copy the folder (not published yet) |
+| [math-exercise](#math-exercise-symbolic-answers-checked-with-sympy) | Symbolic maths answers checked with SymPy | copy the folder (not published yet) |
+| [JSXGraph](#jsxgraph-interactive-mathematical-graphs) | Interactive mathematical graphs | `quarto add jsxgraph/jsxgraph` |
+
+Extensions can be enabled **globally** in `_quarto.yml` or **per page** in the frontmatter:
+
+```{.yaml filename="_quarto.yml — global"}
+filters:
+  - parmsam/quizdown
+  - coatless-quarto/pyodide
+```
+
+```{.yaml filename="page.qmd — per page"}
+---
+filters:
+  - parmsam/quizdown
+---
+```
+
+::: {.callout-tip}
+## Filter order matters
+Filters run in the order you list them. If a Pyodide extension is on the page, it has to come **before** `py-exercise` and `math-exercise` so those two can reuse its runtime instead of loading a second one.
+:::
+
+---
+
+## quizdown — interactive quizzes
+
+**Install:** `quarto add parmsam/quizdown`  
+**Source:** [@quizdown] — [github.com/parmsam/quarto-quizdown](https://github.com/parmsam/quarto-quizdown)
+
+:::: {.content-visible when-format="html"}  
+```{quizdown}
+# Which file controls global project settings in Quarto?
+
+1. [x] `_quarto.yml`
+1. [ ] `index.qmd`
+1. [ ] `styles.css`
+
+# Select all valid Quarto output formats.
+
+- [x] HTML
+- [x] PDF
+- [x] Word (.docx)
+- [ ] Excel (.xlsx)
+
+# Put the Quarto render pipeline in the correct order.
+
+1. Parse `.qmd` source
+2. Execute code chunks
+3. Convert Markdown to HTML/PDF
+4. Apply theme and styles
+```
+
+::::
+
+:::: {.content-hidden when-format="html"}
+::: {.callout-note}
+## Interactive quiz — HTML only
+This quiz requires HTML output. Render as HTML to try it.
+:::
+::::
+
+::: {.panel-tabset}
+
+## Settings
+
+Global quiz settings go inside a `---` block at the top of the quiz:
+
+````{.markdown}
+```{quizdown}
+---
+shuffleAnswers: true    # default: true — randomise answer order
+shuffleQuestions: false # default: false — randomise question order
+---
+```
+````
+
+::: {.callout-tip}
+`shuffleAnswers: true` is the **default** — answers are shuffled unless you explicitly set it to `false`.
+:::
+
+## Question types
+
+**Single choice** — exactly one correct answer:
+````{.markdown}
+```{quizdown}
+# What is 2 + 2?
+1. [ ] 3
+1. [x] 4
+1. [ ] 5
+```
+````
+
+**Multiple choice** — more than one correct answer:
+````{.markdown}
+```{quizdown}
+# Which of these are programming languages?
+- [x] Python
+- [ ] Quarto
+- [x] R
+- [x] JavaScript
+```
+````
+
+**Ordering** — put these items in the correct order:
+````{.markdown}
+```{quizdown}
+# Put the Quarto render pipeline in the correct order.
+
+1. Parse `.qmd` source
+2. Execute code chunks
+3. Convert Markdown to HTML/PDF
+4. Apply theme and styles
+```
+````
+
+## Images & code
+
+Include an image in a question:
+````{.markdown}
+```{quizdown}
+# What does this logo belong to?
+![](https://quarto.org/quarto.png)
+1. [x] Quarto
+1. [ ] RMarkdown
+```
+````
+
+Include inline code in answers:
+````{.markdown}
+```{quizdown}
+# Which chunk option hides the source code?
+1. [x] `echo: false`
+1. [ ] `eval: false`
+1. [ ] `output: false`
+```
+````
+
+:::
+
+---
+
+## Pyodide — live Python in the browser
+
+**Install:** `quarto add coatless-quarto/pyodide`  
+**Source:** [@pyodide] — [github.com/coatless-quarto/pyodide](https://github.com/coatless-quarto/pyodide)
+
+::: {.panel-tabset}
+
+## Example
+
+:::: {.content-visible when-format="html"}
+```{pyodide-python}
+# Edit this code and click Run
+words = ["Quarto", "is", "great"]
+print(" ".join(words))
+```
+::::
+
+:::: {.content-hidden when-format="html"}
+::: {.callout-note}
+## Interactive code cell — HTML only
+This live Python cell runs in the browser via Pyodide. Render as HTML to try it.
+:::
+::::
+
+## Setup & options
+
+Enable per page:
+```{.yaml}
+---
+filters:
+  - coatless-quarto/pyodide
+---
+```
+
+Or globally in `_quarto.yml` (applies to all pages):
+```{.yaml}
+filters:
+  - coatless-quarto/pyodide
+```
+
+Per-chunk options:
+````{.markdown}
+```{pyodide-python}
+#| autorun: true     # run automatically on page load
+#| read-only: true   # reader cannot edit the code
+print("Auto-runs, cannot be changed.")
+```
+````
+
+## vs. regular Python
+
+| | `{python}` | `{pyodide-python}` |
+|---|---|---|
+| Runs at | Render time | Read time (in browser) |
+| Reader can edit | No | Yes |
+| Needs Python installed | Yes (author) | No (reader) |
+| Output baked into HTML | Yes | No — computed live |
+
+::: {.callout-warning}
+## Package availability
+Pyodide runs in WebAssembly. Most pure-Python packages work (`numpy`, `pandas`, `matplotlib`) but packages with C extensions may not be available.
+:::
+
+:::
+
+### pyodide-interaktiv — the fork this tutorial runs on
+
+**Install:** copy the folder — not published yet (see the *Install* tab)\
+**Source:** [@pyodide-interaktiv] — [github.com/Erasmus-CTM/Pyodide-interaktiv](https://github.com/Erasmus-CTM/Pyodide-interaktiv)
+
+`pyodide-interaktiv` is a rework of `coatless-quarto/pyodide` that runs Python in a **Web Worker** instead of on the browser's main thread. The cell syntax is identical — `{pyodide-python}` with the same `#|` options — so pages swap between the two by changing one line in `filters:`. What the worker buys you is everything below.
+
+::: {.callout-note}
+## The cells on this page use the fork
+Every `{pyodide-python}` example on this page — including the one above — is executed by `pyodide-interaktiv`, because only one Pyodide extension can be active per page.
+:::
+
+::: {.panel-tabset}
+
+## What's new
+
+| | `coatless-quarto/pyodide` | `pyodide-interaktiv` |
+|---|---|---|
+| Python runs on | Main thread | Web Worker |
+| Page during a long run | Frozen | Stays responsive |
+| Runaway loop (`while True:`) | Tab is stuck | **Stop** button cancels it |
+| `input()` | Not supported | Real, blocking `input()` |
+| Animations | Static image | Interactive player |
+| AI feedback | — | Feedback button on every cell |
+| Interface language | English | `en`, `de`, `sv`, `no`/`nb`, `da` |
+
+The language is read from Quarto's own `lang:` key, so a multilingual project needs no extra setting — see [Multilanguage Projects](exp_multilanguage.qmd).
+
+## Shared state
+
+All cells on a page share **one** Python session — this is true of the base extension as well — so a later cell can reuse anything an earlier one defined:
+
+:::: {.content-visible when-format="html"}
+```{pyodide-python}
+tutorial = "Quarto"
+values = [3, 1, 4, 1, 5]
+print("defined tutorial and values")
+```
+
+```{pyodide-python}
+# 'tutorial' and 'values' still exist from the cell above
+print(f"{tutorial}: sum = {sum(values)}, max = {max(values)}")
+```
+::::
+
+:::: {.content-hidden when-format="html"}
+::: {.callout-note}
+## Interactive code cells — HTML only
+These live Python cells run in the browser. Render as HTML to try them.
+:::
+::::
+
+Cells that should run before the reader touches anything use `context: setup`; cells whose result is shown but whose code is hidden use `context: output`.
+
+## `input()`
+
+A cell can stop and wait for typed input without freezing the page:
+
+:::: {.content-visible when-format="html"}
+```{pyodide-python}
+name = input("What's your name? ")
+print(f"Hello, {name}!")
+```
+::::
+
+:::: {.content-hidden when-format="html"}
+::: {.callout-note}
+## Interactive code cell — HTML only
+This cell asks for input in the browser. Render as HTML to try it.
+:::
+::::
+
+::: {.callout-warning}
+## `input()` needs cross-origin isolation
+Blocking input relies on `SharedArrayBuffer`, which browsers only hand out to cross-origin-isolated pages. A service worker shipped with the extension sets the required headers automatically on your own domain. Learning platforms such as Moodle usually block service workers — there `input()` is simply unavailable and the page says so. Everything else keeps working.
+:::
+
+## Plots & animation
+
+With the pyodide-interaktiv extension Animations become plotable.
+
+```{pyodide-python}
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import numpy as np
+
+fig, ax = plt.subplots()
+x = np.linspace(0, 2 * np.pi, 100)
+line, = ax.plot(x, np.sin(x))
+
+def update(frame):
+    line.set_ydata(np.sin(x + frame / 10))
+    return line,
+
+ani = animation.FuncAnimation(fig, update, frames=60, blit=True, interval=33)
+plt.show()
+```
+
+A live version of this is on the [Code page](../../beg/Qmd Files/Example Page/ep_code.html) of the Example Page.
+
+::: {.callout-tip}
+## Speed is `interval`, not `frames`
+`interval` is the delay between frames in milliseconds — 33 ms is roughly 30 fps. Matplotlib's default of 200 ms looks visibly choppy. `frames` only sets how many frames are drawn, so raising it makes the animation *longer*, not smoother. Every frame is pre-rendered and embedded, so long animations cost render time and page weight.
+:::
+
+For special cases, `zeige_animation(ani, format="gif")` and `zeige_animation(ani, fps=30)` control format and frame rate directly.
+
+## AI feedback
+
+Every interactive cell gets a **Feedback** button that sends the current code plus its output to a language model and shows the answer under the cell. A ⚙ icon at the top of the document opens the settings panel:
+
+| Field | Meaning |
+|---|---|
+| Provider template | fills in base URL and an example model for OpenRouter, Cerebras, Groq, OpenAI or Ollama |
+| Base URL | API endpoint, e.g. `https://openrouter.ai/api/v1` |
+| API key | stays in the browser only, never in the rendered page |
+| Model | free text; **Fetch models** lists the provider's models, free ones by default |
+| Feedback mode | **Direct API** or **Copy prompt** |
+| Storage | `localStorage` (persistent) or `sessionStorage` (per tab) |
+
+Without an API key, **Copy prompt** mode produces a ready-to-paste prompt for ChatGPT, Claude and the like — no account needed for the reader.
+
+Hints get more concrete with each click on the same cell (1 = nudge, 2 = names the problem, 3 = describes the solution in words — never finished code). Turn it off with `feedback-hints: false`.
+
+```{.yaml filename="page.qmd"}
+pyodide:
+  feedback: true            # show Feedback buttons (default: true)
+  feedback-storage: local   # local | session
+  feedback-hints: true      # progressive hints (default: true)
+```
+
+::: {.callout-important}
+The API key lives in the reader's browser. Never put a key into the `.qmd` — it would be published with the site.
+:::
+
+## Options
+
+Per cell:
+
+| Option | Default | Description |
+|---|---|---|
+| `context` | `interactive` | `interactive`, `output` or `setup` |
+| `read-only` | `false` | editor is locked (no feedback button) |
+| `autorun` | — | `true`: run once Pyodide has started |
+| `label` | — | unique cell ID |
+| `classes` | — | extra CSS classes |
+| `fig-cap` | — | caption for plots |
+| `fig-width` / `fig-height` | `7` / `5` | plot size in inches |
+
+Per document:
+
+```{.yaml filename="page.qmd"}
+pyodide:
+  packages: [numpy, pandas]   # installed at startup via micropip
+  base-url: https://cdn.jsdelivr.net/pyodide/v0.27.2/
+  show-startup-message: true
+  lang: de                    # interface language (default: en)
+```
+
+Packages that only appear in an `import` are fetched on demand, so `packages:` is for the ones you want ready before the first run. `requests`/`urllib3` are shimmed, so `pd.read_csv(url)` works.
+
+## Install
+
+::: {.callout-important}
+## Not yet `quarto add`-able
+`pyodide-interaktiv`, `py-exercise` and `math-exercise` are not in the public extension registry yet — only `coatless-quarto/pyodide` is. Until they are published, vendor them by hand.
+:::
+
+**① Copy the extension folder**
+
+Copy `_extensions/Erasmus-CTM/pyodide-interaktiv/` from this project into your own project's `_extensions/` folder.
+
+**② Reference it by folder name**
+
+```{.yaml filename="page.qmd"}
+---
+title: "My Page"
+format: html
+filters:
+  - pyodide-interaktiv
+---
+```
+
+A vendored extension needs no `quarto add` step, and it is referenced by folder name only — without the `Erasmus-CTM/` prefix that a registry install would add.
+
+::: {.callout-warning}
+## One Pyodide extension per page
+`coatless-quarto/pyodide` and `pyodide-interaktiv` both claim `{pyodide-python}`. Listing both in `filters:` loads two runtimes and breaks the cells — pick one.
+:::
+
+Two more limits worth knowing: `embed-resources` does not work (Pyodide ships WebAssembly binaries), and navigating to another page of the project reloads the runtime.
+
+:::
+
+---
+
+## py-exercise — editable exercises with hidden tests
+
+**Install:** copy the folder — not published yet\
+**Source:** [@py-exercise] — [github.com/Erasmus-CTM/Py-Exercise](https://github.com/Erasmus-CTM/Py-Exercise)
+
+::: {.callout-note}
+## Works on its own
+py-exercise no longer needs a Pyodide extension next to it. On its own it loads Pyodide and the Monaco editor from a CDN when the reader first runs an exercise:
+
+```{.yaml filename="exercises.qmd — standalone"}
+filters:
+  - py-exercise
+```
+
+If the page *does* have a Pyodide extension, list it **first** — py-exercise then reuses that runtime instead of booting a second one:
+
+```{.yaml filename="page.qmd — combined"}
+filters:
+  - pyodide-interaktiv
+  - py-exercise
+```
+:::
+
+
+::: {.panel-tabset}
+
+## Example
+
+:::: {.content-visible when-format="html"}
+```{py-exercise}
+def square(x):
+    """Return x squared."""
+    # Your solution here
+    pass
+
+## TESTS ##
+assert square(3) == 9,  "square(3) should be 9"
+assert square(0) == 0,  "square(0) should be 0"
+assert square(-2) == 4, "square(-2) should be 4"
+```
+::::
+
+:::: {.content-hidden when-format="html"}
+::: {.callout-note}
+## Interactive exercise — HTML only
+This exercise runs student code in the browser. Render as HTML to try it.
+:::
+::::
+
+## Syntax
+
+````{.markdown}
+```{py-exercise}
+def my_function(x):
+    """Docstring shown to the reader."""
+    # Student fills this in
+    pass
+
+## TESTS ##
+assert my_function(2) == 4, "Feedback shown on failure"
+assert my_function(0) == 0
+```
+````
+
+Rules:
+1. Write the function stub with a docstring at the top.
+2. `## TESTS ##` is the separator — everything below is hidden from the reader.
+3. Each `assert` statement's message becomes the feedback shown on test failure.
+
+::: {.callout-tip}
+Write assertion messages as if you are talking to the student:
+`"my_function(2) should return 4 — did you multiply correctly?"`
+:::
+
+## Options
+
+Per cell:
+
+| Option | Default | Description |
+|---|---|---|
+| `label` | `py-exercise-N` | unique exercise ID |
+| `caption` | — | title above the exercise |
+| `forbidden-imports` | — | comma-separated imports the solution may not use |
+| `forbidden-keywords` | — | comma-separated Python keywords the solution may not use |
+| `show-test-hints` | `true` | show the assertion message when a test fails |
+
+Per document — the same keys, applied to every exercise on the page:
+
+```{.yaml filename="exercises.qmd"}
+py-exercise:
+  forbidden-imports: [os, sys, subprocess]
+  forbidden-keywords: [for, while, sorted]
+  show-test-hints: true
+  lang: de                   # interface language (default: en)
+```
+
+## Restricting solutions
+
+Forbidden constructs are checked **before** the code runs — a violation is reported instead of a test result:
+
+````{.markdown}
+```{py-exercise}
+#| caption: Fibonacci, recursively
+#| forbidden-keywords: for, while
+def fib(n):
+    pass
+
+## TESTS ##
+assert fib(6) == 8,   "fib(6) should be 8"
+assert fib(10) == 55, "fib(10) should be 55"
+```
+````
+
+Typical uses: banning `for`/`while` to force recursion or comprehensions, banning `sorted` to make students write the algorithm, banning `os`/`sys`/`subprocess` in an open learning environment.
+
+## Submission
+
+With `submission: true` the page gets a header asking for a student ID and a quiz ID. Once the tests pass, the student can download the result as a JSON file, XOR-encoded with `submission-key` and Base64-wrapped so the raw results are not readable without the key.
+
+```{.yaml filename="exercises.qmd"}
+py-exercise:
+  submission: true
+  submission-key: "sose25-quiz1"
+```
+
+::: {.callout-warning}
+The key is in the rendered page, so this deters casual tampering — it is not real cryptography. Treat it as a convenience for collecting results, not as an exam-grade safeguard.
+:::
+
+:::
+
+---
+
+## math-exercise — symbolic answers checked with SymPy
+
+**Install:** copy the folder — not published yet\
+**Source:** [@math-exercise] — [github.com/Erasmus-CTM/Math-Exercise](https://github.com/Erasmus-CTM/Math-Exercise)
+
+Where py-exercise checks *code*, math-exercise checks an *answer*. Students type a mathematical expression into an input field and it is compared with SymPy — so any equivalent form counts as correct.
+
+::: {.callout-note}
+## Works on its own
+Like py-exercise, math-exercise loads Pyodide and SymPy itself on the first **Check** click if no Pyodide extension is present. When one is, list it first:
+
+```{.yaml filename="page.qmd"}
+filters:
+  - pyodide-interaktiv
+  - math-exercise
+```
+:::
+
+::: {.panel-tabset}
+
+## Example
+
+:::: {.content-visible when-format="html"}
+```{math-exercise}
+#| label: exp-circle-area
+#| caption: Area of a circle
+#| vars: r
+A circle has radius $r = 3$. Give its area exactly (use `pi`):
+
+$A =$ _[pi*9]
+```
+::::
+
+:::: {.content-hidden when-format="html"}
+::: {.callout-note}
+## Interactive exercise — HTML only
+This exercise is checked in the browser with SymPy. Render as HTML to try it.
+:::
+::::
+
+`pi*9`, `9*pi` and `3**2*pi` are all accepted — they are the same expression.
+
+## Syntax
+
+````{.markdown}
+```{math-exercise}
+#| label: my-exercise
+#| caption: Exercise title
+#| vars: x
+Question text with an input field: _[correct_answer]
+```
+````
+
+The answer inside `[...]` is a SymPy expression, e.g. `pi * 9` or `x**2 + 2*x + 1`. Three field widths are available:
+
+| Marker | Width | Element |
+|---|---|---|
+| `_[answer]` | narrow (~10 characters) | `<input>` |
+| `__[answer]` | medium (~20 characters) | `<input>` |
+| `___[answer]` | wide, two lines | `<textarea>` |
+
+Several fields in one exercise are checked together on **Check**.
+
+## Options
+
+| Option | Default | Description |
+|---|---|---|
+| `label` | `math-exercise-N` | unique exercise ID |
+| `caption` | — | title above the exercise |
+| `vars` | — | SymPy symbols, e.g. `x, y, r` |
+| `mode` | `equivalent` | `equivalent` or `exact` |
+| `reject` | — | expression to refuse even though it is correct |
+| `pool` | `false` | treat the block as a pool of variants |
+
+```{.yaml filename="page.qmd"}
+math-exercise:
+  lang: de     # interface language (default: en)
+```
+
+::: {.callout-important}
+Any symbol used in the answer has to be listed in `vars` — otherwise SymPy has no idea what `x` is meant to be.
+:::
+
+## Checking modes
+
+**`equivalent`** *(default)* — accepts every mathematically equivalent form. For `[pi * 9]`, all of `pi*9`, `9*pi` and `3**2 * pi` pass.
+
+**`equivalent` + `reject`** — accepts equivalent forms *except* the one given. This is what makes simplification exercises work: the student cannot just retype the question.
+
+````{.markdown}
+```{math-exercise}
+#| vars: x
+#| mode: equivalent
+#| reject: (x+1)**2
+Expand: $(x+1)^2 =$ __[x**2 + 2*x + 1]
+```
+````
+
+→ `(x+1)^2` is refused, `x^2 + 2x + 1` is accepted.
+
+**`exact`** — accepts only SymPy's canonical form of the answer. Use it when one specific notation is required.
+
+## Question pools
+
+With `pool: true` and `---` as a separator, one block holds several variants. Each page visit picks one at random and keeps it for the session; a ↻ button loads a different one.
+
+````{.markdown}
+```{math-exercise}
+#| label: circle-pool
+#| caption: Area of a circle
+#| vars: r
+#| pool: true
+Radius r = 3 cm. $A =$ _[pi*9] cm²
+
+---
+
+Radius r = 5 cm. $A =$ _[pi*25] cm²
+
+---
+
+Radius r = 7 cm. $A =$ _[pi*49] cm²
+```
+````
+
+All variants share the same options (`vars`, `mode`, `reject`).
+
+## Input help & feedback
+
+Each exercise has a collapsible **input help** listing the notation students need — `x^2` or `x**2`, `sqrt(x)`, `root(x, n)`, `pi`, `E`, `Abs(x)`, `oo`, `integrate(f, x)`, `diff(f, x)`.
+
+The **Feedback** button works like the one in `pyodide-interaktiv`: same settings dialog, same providers, same progressive hint levels — and credentials entered once in `localStorage` are reused across all pages of the project.
+
+:::
+
+---
+
+## JSXGraph — interactive mathematical graphs
+
+**Install:** `quarto add jsxgraph/jsxgraph`  
+**Source:** [@jsxgraph] — [github.com/jsxgraph/jsxgraph-quarto](https://github.com/jsxgraph/jsxgraph-quarto)
+
+::: {.panel-tabset}
+
+## Example
+
+:::: {.content-visible when-format="html"}
+```jsxgraph
+var board = JXG.JSXGraph.initBoard(BOARDID, {
+    boundingbox: [-7, 1.8, 7, -1.8],
+    axis: true,
+    showNavigation: false
+});
+board.create('functiongraph', [Math.sin], {
+    strokeColor: '#0d6efd', strokeWidth: 2.5
+});
+var p = board.create('glider', [1.57, 0, board.defaultAxes.x], {
+    name: 'x', size: 5, fillColor: '#E91E63'
+});
+board.create('point', [
+    function() { return p.X(); },
+    function() { return Math.sin(p.X()); }
+], { name: function() { return 'sin(x) ≈ ' + Math.sin(p.X()).toFixed(3); },
+     size: 5, fillColor: '#198754', fixed: true });
+```
+::::
+
+:::: {.content-hidden when-format="html"}
+::: {.callout-note}
+## Interactive graph — HTML only
+This JSXGraph canvas is rendered in the browser. Render as HTML to interact with it.
+:::
+::::
+
+## Syntax
+
+````{.markdown}
+```jsxgraph
+var board = JXG.JSXGraph.initBoard(BOARDID, {
+    boundingbox: [-5, 5, 5, -5],   // [xmin, ymax, xmax, ymin]
+    axis: true,
+    keepaspectratio: false,
+    showNavigation: false
+});
+```
+````
+
+::: {.callout-important}
+Always use the literal string `BOARDID` — Quarto replaces it with a unique ID.
+Hardcoding a string breaks pages with multiple graphs.
+:::
+
+## Common elements
+
+```{.javascript}
+// Function graph
+board.create('functiongraph', [Math.sin], { strokeColor: '#0d6efd' });
+
+// Draggable point
+var p = board.create('point', [2, 1], { name: 'P', size: 4 });
+
+// Glider — point constrained to a line/curve
+var g = board.create('glider', [1, 0, board.defaultAxes.x], { name: 'x' });
+
+// Slider
+var s = board.create('slider', [[0,-3],[4,-3],[0,1,2*Math.PI]], { name: 'a' });
+
+// Use slider value
+board.create('functiongraph', [function(x) { return Math.sin(s.Value()*x); }]);
+
+// Text label
+board.create('text', [1, 2, function() { return 'x = ' + g.X().toFixed(2); }]);
+
+// Segment
+board.create('segment', [p1, p2], { strokeColor: '#198754', dash: 2 });
+```
+
+:::

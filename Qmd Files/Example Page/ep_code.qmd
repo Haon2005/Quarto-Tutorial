@@ -3,8 +3,9 @@ title: "Code"
 bibliography: references.bib
 sidebar: example-sidebar
 filters:
-  - coatless-quarto/pyodide
+  - pyodide-interaktiv
   - py-exercise
+  - math-exercise
 ---
 Quarto supports three ways to include Python code —
 all powered by [Pyodide](https://pyodide.org) [@pyodide], which runs Python directly in the browser.
@@ -55,6 +56,56 @@ for deg in angles:
     print(f"sin({deg:3d}°) = {val:+.4f}  {bar}")
 ```
 
+## Cells Share State
+
+Every cell on a page runs in the **same** Python interpreter — a later cell can
+reuse a variable from an earlier one without re-importing or redefining it:
+
+```{pyodide-python}
+# 'angles' and 'math' already exist from the cell above
+print(f"Largest angle checked: {max(angles)}°")
+```
+
+## Interactive `input()`
+
+Cells support real, blocking `input()` — the page stays responsive while it
+waits for you to type:
+
+```{pyodide-python}
+name = input("What's your name? ")
+print(f"Hello, {name}!")
+```
+
+## Animation
+
+A Matplotlib `FuncAnimation` plays right in the page — the code is exactly what
+you would write in a local IDE, no extra call needed:
+
+```{pyodide-python}
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import numpy as np
+
+fig, ax = plt.subplots()
+x = np.linspace(0, 2 * np.pi, 100)
+line, = ax.plot(x, np.sin(x))
+
+def update(frame):
+    line.set_ydata(np.sin(x + frame / 10))
+    return line,
+
+ani = animation.FuncAnimation(fig, update, frames=60, blit=True, interval=33)
+plt.show()
+```
+
+`interval` is the delay between frames in milliseconds and controls the speed —
+33 ms is roughly 30 fps. Matplotlib's default is 200 ms, which looks noticeably
+choppy. `frames` only sets how many frames are drawn, so raising it makes the
+animation longer, not smoother.
+
+If you need a different format or frame rate, `zeige_animation(ani,
+format="gif")` and `zeige_animation(ani, fps=30)` are still available.
+
 ## Editable Exercise
 
 Complete the function — tests run automatically on checking your solution:
@@ -71,6 +122,18 @@ def f(x_deg):
 assert abs(f(0)  - 1.0)           < 1e-4, "f(0) should be 1.0"
 assert abs(f(90) - 1.0)           < 1e-4, "f(90°) should be 1.0"
 assert abs(f(45) - math.sqrt(2))  < 1e-4, "f(45°) should be √2"
+```
+
+## Math Exercise
+
+A different kind of check — symbolic answers, evaluated with SymPy instead of
+unit tests:
+
+```{math-exercise}
+#| label: ep-math-sin
+#| caption: Sine at a special angle
+#| vars: x
+What is $\sin(90°)$, exactly? _[1]
 ```
 
 → See the result plotted on the [Visualizations page](ep_visuals.qmd).

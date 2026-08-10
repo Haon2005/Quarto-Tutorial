@@ -1,0 +1,191 @@
+---
+title: "Multilanguage Projects"
+sidebar: tips-sidebar
+---
+
+Quarto does not have a built-in translation system, but **profiles** make it straightforward to build a project that serves content in multiple languages — each profile renders to its own output folder.
+
+::: {.callout-warning}
+## Quarto's native language switcher has a limitation
+Quarto's built-in `lang:` and profile-based navbar links can only point to a **fixed start page** of the other language.
+They cannot automatically navigate to the **equivalent page** in the other language.
+
+This is solvable with a small Python post-processing script — see [Language switcher fix](#language-switcher-fix) below.
+:::
+
+---
+
+## Project structure
+
+```
+my-project/
+├── _quarto.yml
+├── _quarto-de.yml
+├── _quarto-en.yml
+├── de/
+│   ├── index.qmd
+│   └── chapter1.qmd
+├── en/
+│   ├── index.qmd
+│   └── chapter1.qmd
+└── docs/
+    ├── de/
+    └── en/
+```
+
+---
+
+## Step 1 — Profile group
+
+```{.yaml filename="_quarto.yml"}
+project:
+  type: website
+
+profile:
+  default: en
+  group: [en, de]
+```
+
+---
+
+## Step 2 — Per-language config files
+
+```{.yaml filename="_quarto-en.yml"}
+project:
+  output-dir: docs/en
+  render:
+    - en/*.qmd
+
+website:
+  title: "My Project"
+  navbar:
+    left:
+      - text: "Home"
+        href: en/index.qmd
+      - text: "🇩🇪 Deutsch"
+        href: "de/index.html"    # ← links to DE start page only
+```
+
+```{.yaml filename="_quarto-de.yml"}
+project:
+  output-dir: docs/de
+  render:
+    - de/*.qmd
+
+website:
+  title: "Mein Projekt"
+  navbar:
+    left:
+      - text: "Startseite"
+        href: de/index.qmd
+      - text: "🇬🇧 English"
+        href: "en/index.html"    # ← links to EN start page only
+```
+
+---
+
+## Step 3 — Render each language
+
+::: {.callout-important}
+## Quarto cannot render all profiles at once natively
+`quarto render` only runs the **default** profile.
+You must render each profile separately:
+
+```{.bash}
+quarto render --profile en
+quarto render --profile de
+```
+
+Use a build script (like `preview.py` in this project) to automate this.
+:::
+
+---
+
+## Language switcher fix {#language-switcher-fix}
+
+Quarto's navbar links point to the other language's **homepage** — they cannot know which page the reader is currently on.
+
+A Python post-processing script solves this: after rendering, it rewrites the language-switch link in every HTML file to point to the **equivalent page** in the other language.
+
+This works as long as your source files have **matching names** across languages:
+
+```
+en/chapter1.qmd  →  docs/en/chapter1.html
+de/chapter1.qmd  →  docs/de/chapter1.html
+```
+
+Add this to your build script after rendering:
+
+```{.python}
+import os, re
+
+def fix_language_links(docs_dir, lang_pairs):
+    """
+    Rewrite language-switch hrefs to point to the equivalent page
+    instead of the other language's homepage.
+
+    lang_pairs: list of (from_lang, to_lang) tuples, e.g. [("en", "de"), ("de", "en")]
+    """
+    docs_path = os.path.abspath(docs_dir)
+
+    for from_lang, to_lang in lang_pairs:
+        lang_dir = os.path.join(docs_path, from_lang)
+        if not os.path.isdir(lang_dir):
+            continue
+        for dirpath, _, filenames in os.walk(lang_dir):
+            for filename in filenames:
+                if not filename.endswith(".html"):
+                    continue
+                html_file = os.path.join(dirpath, filename)
+                rel = os.path.relpath(html_file, lang_dir)
+                # Compute the path to the equivalent page in the other language
+                depth = len(rel.replace("\\", "/").split("/")) - 1
+                prefix = "../" * depth
+                equivalent = prefix + "../" + to_lang + "/" + rel.replace("\\", "/")
+
+                with open(html_file, encoding="utf-8") as f:
+                    content = f.read()
+                # Replace the generic language-switch link
+                new_content = content.replace(
+                    f'href="{prefix}../{to_lang}/index.html"',
+                    f'href="{equivalent}"'
+                )
+                if new_content != content:
+                    with open(html_file, "w", encoding="utf-8") as f:
+                        f.write(new_content)
+
+fix_language_links("docs", [("en", "de"), ("de", "en")])
+```
+
+---
+
+## Conditional content within a shared file
+
+For small projects, you can maintain a single set of files and use **conditional divs**:
+
+````{.markdown}
+::: {.content-visible when-profile="en"}
+Welcome to this tutorial.
+:::
+
+::: {.content-visible when-profile="de"}
+Willkommen zu diesem Tutorial.
+:::
+````
+
+::: {.callout-warning}
+This approach works for small projects but becomes hard to maintain as content grows.
+For anything beyond a few pages, separate source folders (one per language) are strongly recommended.
+:::
+
+---
+
+## Shared content across languages
+
+Files that don't need translation (code examples, shared figures) can be included with Quarto's include shortcode:
+
+```{.markdown}
+{{</* include ../../shared/code-example.qmd */>}}
+```
+
+Place shared files in a `shared/` folder outside the language folders.

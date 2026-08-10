@@ -43,9 +43,13 @@ The tutorial is split into three independent levels — visitors self-select the
 | Extension | Purpose |
 |---|---|
 | [`coatless-quarto/pyodide`](https://github.com/coatless-quarto/pyodide) | Run Python code live in the browser |
-| [`Erasmus-CTM/py-exercise`](https://github.com/Erasmus-CTM/py-exercise) | Editable Python exercises with hidden tests |
+| `Erasmus-CTM/pyodide-interaktiv` *(bundled, not yet public)* | Fork of the above: cells share one Python session per page, real `input()`, Matplotlib animations, and safe infinite loops — runs in a Web Worker |
+| `Erasmus-CTM/py-exercise` *(bundled, not yet public)* | Editable Python exercises with hidden tests |
+| `Erasmus-CTM/math-exercise` *(bundled, not yet public)* | Editable exercises with symbolic/numeric answers, checked with SymPy |
 | [`jsxgraph/jsxgraph`](https://github.com/jsxgraph/jsxgraph) | Interactive mathematical graphs |
 | [`parmsam/quizdown`](https://github.com/parmsam/quizdown) | Interactive multiple-choice quizzes |
+
+`pyodide-interaktiv` and `math-exercise` are planned to be published as installable extensions in the coming week — see `Plans.md` for the follow-up note on updating the install instructions once that happens.
 
 ---
 

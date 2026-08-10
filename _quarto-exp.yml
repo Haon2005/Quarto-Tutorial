@@ -6,22 +6,35 @@ project:
 
 website:
   title: "Quarto Tipps and Tricks"
+  page-navigation: true
   navbar:
     left:
       - text: "Overview"
         href: index.qmd
       - text: "Example Page"
-        href: "/beg/Qmd Files/Example Page/index_beg.html"
+        href: "beg/Qmd Files/Example Page/index_beg.html"
       - text: "Getting Started"
-        href: "/int/Qmd Files/Getting Started/getting_started.html"
+        href: "int/Qmd Files/Getting Started/getting_started.html"
       - text: "Tipps and Tricks for Quarto Users"
         href: "Qmd Files/Tipps and Tricks/index_exp.qmd"
   sidebar:
-    - href: index_exp.qmd
-      text: What you should know
-    - href: exp_yml.qmd
-      text: The YML File
-    - href: exp_website.qmd
-      text: The QMD File
-    - href: exp_multilanguage.qmd
-      text: Multilanguage Quarto Projects
+    - id: tips-sidebar
+      style: docked
+      contents:
+        - href: "Qmd Files/Tipps and Tricks/index_exp.qmd"
+          text: "What's covered & What you should know already"
+        - href: "Qmd Files/Tipps and Tricks/exp_yml.qmd"
+          text: The YML File
+        - href: "Qmd Files/Tipps and Tricks/exp_qmd.qmd"
+          text: The QMD File
+        - href: "Qmd Files/Tipps and Tricks/exp_extensions.qmd"
+          text: Extensions
+        - href: "Qmd Files/Tipps and Tricks/exp_multilanguage.qmd"
+          text: Multilanguage Projects
+        - href: "Qmd Files/Tipps and Tricks/exp_cheatsheet.qmd"
+          text: Cheatsheet
+
+format:
+  html:
+    toc: true
+    code-tools: true

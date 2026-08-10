@@ -1,0 +1,403 @@
+---
+title: "The QMD File"
+sidebar: tips-sidebar
+---
+
+A `.qmd` file is a plain text file combining **Markdown** for prose and **code chunks** for computation.
+This chapter covers the options that give you precise control over how code runs and how content is shown.
+
+---
+
+## Code chunk options
+
+By default, Quarto shows both the code and its output. Chunk options let you override this — hiding code in a final report, adding captions, or skipping slow computations — without changing the logic of the code itself.
+
+Every option is written as a `#|` comment at the top of the chunk. The chunk below runs `print("Hello!")` but hides the source code and suppresses warnings:
+
+````markdown
+```{.python}
+#| echo: false
+#| eval: true
+#| output: true
+#| warning: false
+print("Hello!")
+```
+````
+
+::: {.callout-note}
+## Why `{.python}` instead of `{python}`?
+In Quarto, curly braces without a dot — `{python}` — tell the engine to **execute** that block as Python code. This is what you want in your actual document, but in a tutorial like this one we only want to *show* the syntax without triggering execution.
+
+Adding a dot — `{.python}` — switches the block to **display-only**: Quarto still applies Python syntax highlighting, but never runs the code. Alternatively, wrapping the entire example in a four-backtick ` ````markdown ` fence achieves the same effect.
+
+In your own `.qmd` files, always use `{python}` (no dot) so the chunk actually runs.
+:::
+
+### Option reference
+
+| Option | Values | What it controls |
+|---|---|---|
+| `echo` | `true` / `false` / `fenced` | Show the source code |
+| `eval` | `true` / `false` | Actually run the code |
+| `output` | `true` / `false` / `asis` | Show the output |
+| `warning` | `true` / `false` | Show warnings |
+| `error` | `true` / `false` | Show errors (instead of stopping) |
+| `include` | `true` / `false` | Include chunk at all (shorthand for echo+output: false) |
+| `code-fold` | `true` / `false` | Collapse code into a toggle |
+| `code-summary` | string | Label for the fold toggle |
+| `fig-cap` | string | Caption for figures |
+| `fig-align` | `left` / `center` / `right` | Figure alignment |
+| `label` | string (must start with `fig-` or `tbl-`) | ID for cross-referencing |
+
+### Common combinations
+
+These three patterns cover most everyday use cases:
+
+:::: {.columns}
+::: {.column width="33%"}
+**Hide code, show output**
+
+```{.yaml}
+#| echo: false
+```
+
+The code runs silently — readers see only the result. Ideal for polished reports.
+:::
+::: {.column width="33%"}
+**Show code, don't run**
+
+```{.yaml}
+#| eval: false
+```
+
+Useful for illustrative examples or code that would fail in the current environment.
+:::
+::: {.column width="33%"}
+**Collapsible code block**
+
+```{.yaml}
+#| code-fold: true
+#| code-summary: "Show the code"
+```
+
+Keeps the page clean while still letting curious readers expand the source.
+:::
+::::
+
+---
+
+## Global chunk defaults
+
+Repeating the same options on every single chunk is tedious and error-prone. Set defaults once in `_quarto.yml` — they apply to every chunk in the project, and you only override where needed:
+
+```{.yaml filename="_quarto.yml"}
+execute:
+  echo: false
+  warning: false
+```
+
+---
+
+## Conditional content
+
+Sometimes you need different text for different audiences or output formats — a simplified explanation for beginners and extra detail for intermediates, or an interactive widget in HTML that simply doesn't exist in PDF.
+
+::: {.callout-tip}
+## Showing code examples inside Markdown
+
+To display a code chunk *without* executing it, either wrap it in a four-backtick ` ````markdown ` fence, or use `{.python}` (with a dot) instead of `{python}`. Without the dot, Quarto treats the block as executable.
+:::
+
+### Profile-based content
+
+Profiles are defined in `_quarto.yml`. Quarto evaluates them at render time — the `.qmd` source stays the same for every audience.
+
+:::: {.columns}
+::: {.column width="50%"}
+**Markdown**
+
+````markdown
+::: {.content-visible when-profile="int"}
+This paragraph only appears in the **intermediate** profile.
+:::
+
+::: {.content-hidden when-profile="beg"}
+This is hidden in the beginner profile, visible everywhere else.
+:::
+````
+:::
+::: {.column width="50%"}
+**What happens**
+
+Rendering with `quarto render --profile int` includes only blocks tagged `when-profile="int"`. Blocks tagged `when-profile="beg"` are hidden.
+
+This lets you maintain a single source file for multiple audience levels without duplicating content.
+:::
+::::
+
+### Format-based content
+
+:::: {.columns}
+::: {.column width="50%"}
+**Markdown**
+
+````markdown
+::: {.content-visible when-format="html"}
+This only appears in HTML output.
+:::
+
+::: {.content-visible when-format="pdf"}
+This only appears in PDF output.
+:::
+````
+:::
+::: {.column width="50%"}
+**What happens**
+
+Quarto checks the output format at render time. Only the matching block is included — the rest is silently dropped.
+
+Use this to embed interactive HTML elements (plots, widgets) while providing a static alternative for PDF.
+:::
+::::
+
+---
+
+## Cross-referencing
+
+Cross-references let you write `@fig-sine` in prose and have Quarto automatically produce "Figure 1" — with a hyperlink in HTML and the correct number even if figures are reordered.
+
+### Figures
+
+:::: {.columns}
+::: {.column width="50%"}
+**Markdown**
+
+````markdown
+```{.python}
+#| label: fig-sine
+#| fig-cap: "A plot of sin(x)"
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.linspace(0, 2*np.pi, 200)
+plt.plot(x, np.sin(x))
+plt.show()
+```
+
+As shown in @fig-sine, the sine function...
+````
+
+:::
+::: {.column width="50%"}
+**What happens**
+
+The `label` option registers the figure; `fig-cap` sets the caption. Writing `@fig-sine` in prose becomes a clickable "Figure 1" link in HTML and the correct number in PDF — Quarto handles the counting automatically.
+
+Labels for figures **must** start with `fig-`.
+:::
+::::
+::: {.callout-note}
+**Reminder:** Use `{python}` instead of `{.python}` in your own document — only the dot-version is used here to prevent execution in this tutorial.
+:::
+
+### Tables
+
+:::: {.columns}
+::: {.column width="50%"}
+**Markdown**
+
+````markdown
+```{.python}
+#| label: tbl-data
+#| tbl-cap: "Summary statistics"
+import pandas as pd
+df = pd.DataFrame({"x": [1,2,3], "y": [4,5,6]})
+df
+```
+
+The values in @tbl-data show...
+````
+
+:::
+::: {.column width="50%"}
+**What happens**
+
+Works the same as figures — `@tbl-data` becomes "Table 1" wherever you write it. Labels for tables **must** start with `tbl-`.
+:::
+::::
+::: {.callout-note}
+**Reminder:** Use `{python}` instead of `{.python}` in your own document
+:::
+
+### Sections
+
+:::: {.columns}
+::: {.column width="50%"}
+**Markdown**
+
+```{.markdown}
+## Introduction {#sec-intro}
+
+As described in @sec-intro...
+```
+:::
+::: {.column width="50%"}
+**What happens**
+
+Adding `{#sec-intro}` to any heading makes it referenceable. `@sec-intro` becomes "Section 1" with a link in HTML. Section labels **must** start with `sec-`.
+:::
+::::
+
+::: {.callout-tip}
+## Label naming rules
+- Figure labels must start with `fig-`
+- Table labels must start with `tbl-`
+- Section labels must start with `sec-`
+:::
+
+---
+
+## Custom divs and spans
+
+CSS classes applied to a block let you style or target content without editing your stylesheet from within the `.qmd` file. Quarto passes the class straight through to the HTML output.
+
+:::: {.columns}
+::: {.column width="50%"}
+**Markdown**
+
+```{.markdown}
+::: {.my-class}
+This block gets the `my-class` CSS class.
+:::
+```
+
+For inline styling, use a span:
+
+```{.markdown}
+This word is [highlighted]{.my-highlight} in the text.
+```
+:::
+::: {.column width="50%"}
+**Output**
+
+::: {.border .p-3}
+This block gets the `my-class` CSS class.
+:::
+
+This word is [highlighted]{.fw-bold} in the text.
+:::
+::::
+
+### Built-in Bootstrap utility classes
+
+These work out of the box without any custom CSS:
+
+| Class | Effect |
+|---|---|
+| `.text-center` | Centre-align text |
+| `.text-muted` | Grey text |
+| `.fw-bold` | Bold text |
+| `.border` | Add a border |
+| `.bg-light` | Light background |
+| `.p-3` | Add padding |
+| `.mt-4` | Add top margin |
+
+:::: {.columns}
+::: {.column width="50%"}
+**Markdown**
+
+```{.markdown}
+::: {.border .p-3 .bg-light}
+This box has a border, padding, and a light background — no custom CSS needed.
+:::
+```
+:::
+::: {.column width="50%"}
+**Output**
+
+::: {.border .p-3 .bg-light}
+This box has a border, padding, and a light background — no custom CSS needed.
+:::
+:::
+::::
+
+---
+
+## Callout blocks
+
+Callouts draw attention to important information without breaking prose flow. Quarto renders them as styled boxes with an icon — use them for tips, warnings, or critical notes.
+
+:::: {.columns}
+::: {.column width="50%"}
+**Markdown**
+
+```{.markdown}
+::: {.callout-note}
+## Optional title
+Informational note.
+:::
+
+::: {.callout-tip}
+Practical advice.
+:::
+
+::: {.callout-warning}
+Something to watch out for.
+:::
+
+::: {.callout-important}
+Critical information.
+:::
+
+::: {.callout-caution}
+Proceed carefully.
+:::
+```
+:::
+::: {.column width="50%"}
+**Output**
+
+::: {.callout-note}
+## Optional title
+Informational note.
+:::
+
+::: {.callout-tip}
+Practical advice.
+:::
+
+::: {.callout-warning}
+Something to watch out for.
+:::
+
+::: {.callout-important}
+Critical information.
+:::
+
+::: {.callout-caution}
+Proceed carefully.
+:::
+:::
+::::
+
+Add `collapse="true"` to make a callout collapsible — readers expand it on demand:
+
+:::: {.columns}
+::: {.column width="50%"}
+**Markdown**
+
+```{.markdown}
+::: {.callout-note collapse="true"}
+## Click to expand
+Hidden detail.
+:::
+```
+:::
+::: {.column width="50%"}
+**Output**
+
+::: {.callout-note collapse="true"}
+## Click to expand
+Hidden detail.
+:::
+:::
+::::

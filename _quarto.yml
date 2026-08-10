@@ -4,9 +4,13 @@ project:
 execute: 
   freeze: auto
 
-format: html
+format:
+  html:
+    theme:
+      light: [morph, Theme/morph_custom.scss]
+      dark:  [slate, Theme/slate_custom.scss]
 
 profile:
   default: beg
-  group: [beg, int, exp]
+  group: [beg, int, exp, root]
 

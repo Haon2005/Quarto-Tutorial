@@ -110,6 +110,22 @@ i.python,
   color: #0475b2 !important;
 }
 
+/* Source Code Blocks */
+div.sourceCode{
+  background-color: rgba(255, 255, 255, 0.65);
+}
+
+/* Sidebar separator (light mode only) */
+body:not(.quarto-dark) #quarto-sidebar {
+  border-right: 1px solid #8099c8 !important;
+}
+
+/* Navbar — visible distinction from the page body (light mode only) */
+body:not(.quarto-dark) .navbar {
+  background-color: #92a9d1 !important;
+  border-bottom: 1px solid #7591bd !important;
+}
+
 .nav {
   --bs-nav-link-padding-x: 1rem;
   --bs-nav-link-padding-y: 0.5rem;
@@ -124,7 +140,7 @@ i.python,
   border-top: 1px solid #7f8a99 !important;
   border-bottom: 1px solid #7f8a99 !important;
   border-right: 1px solid #7f8a99 !important;
-  background-color: #e6e7cc !important;
+  background-color: #dde4f5 !important;
 }
 
 .nav-tabs {
@@ -165,9 +181,27 @@ figcaption, .figure-caption {
   border-bottom: 1px solid hsla(238.9, 89.9%, 53.3%, 0.15) !important;
 }
 
+/* All mermaid diagrams — general rules (same selectors as #fig-schema-mermaid, without the ID) */
+.label text,
+.nodeLabel,
+.mermaid span {
+  color: #000080 !important;
+  fill:  #000080 !important;
+}
+
+.edgePath .path,
+.flowchart-link {
+  stroke:       #1a2e69 !important;
+  stroke-width: 3px;
+}
+
+.marker {
+  fill:   #1a2e69 !important;
+  stroke: #1a2e69 !important;
+}
+
 /* Deutlicheres Highlighting für den aktiven Navbar-Tab */
 .navbar-nav .nav-link.active {
   color: #3a13f8 !important;
   font-weight: bold;
-  border-bottom: 2px solid #3a13f8;
 }

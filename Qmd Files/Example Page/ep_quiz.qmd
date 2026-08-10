@@ -1,11 +1,13 @@
 ---
 title: "Quiz"
+bibliography: references.bib
 sidebar: example-sidebar
 filters:
   - parmsam/quizdown
 ---
 
-Test your understanding of the sine function — and Quarto's features.
+Test your understanding of the sine function — and Quarto's features,
+powered by the [quarto-quizdown](https://github.com/parmsam/quarto-quizdown) extension [@quizdown] by Parmsam.
 
 ```{quizdown}
 ---
@@ -36,10 +38,17 @@ shuffleQuestions: false
 
 # Which extension makes Python run live in the browser?
 
-1. [x] pyodide
+1. [x] pyodide-interaktiv
 2. [ ] quizdown
 3. [ ] jsxgraph
 4. [ ] py-exercise
+
+# `pyodide-interaktiv` runs Python in a Web Worker. What does that buy you?
+
+1. [ ] Nothing — it's just a different name for the same engine.
+2. [x] The page stays responsive during execution, and every cell gets a Stop button.
+3. [ ] Code runs on a server instead of in the browser.
+4. [ ] Python code compiles to JavaScript.
 
 # Which file extension does Quarto use for source files?
 

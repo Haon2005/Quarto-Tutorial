@@ -1,0 +1,40 @@
+---
+title: "Quarto Tips & Tricks"
+subtitle: "Going further with Quarto"
+sidebar: tips-sidebar
+---
+
+This section is for people who already know how to build Quarto documents and want to go further.
+All three levels of this tutorial are built with the techniques described here.
+
+::: {.callout-note}
+## Official Documentation
+The complete Quarto reference is at **[quarto.org/docs/reference](https://quarto.org/docs/reference/)** —
+this section is a curated guide to the parts that are most useful in practice.
+:::
+
+---
+
+## What's covered — and where to find it
+
+| I want to… | Go to |
+|---|---|
+| Control output formats, freeze, and profiles | [The YML File](exp_yml.qmd) |
+| Configure advanced sidebar sections and collapsing | [The YML File → Sidebar](exp_yml.qmd#sidebar) |
+| Customise the site's look with themes and CSS | [The YML File → Styles](exp_yml.qmd#styles--css) |
+| Control how code runs (`echo`, `eval`, `fold`, …) | [The QMD File](exp_qmd.qmd) |
+| Show content only in certain profiles or formats | [The QMD File → Conditional content](exp_qmd.qmd#conditional-content) |
+| Cross-reference figures, tables, and sections | [The QMD File → Cross-referencing](exp_qmd.qmd#cross-referencing) |
+| Use quizdown, Pyodide, JSXGraph, py-exercise, or math-exercise | [Extensions](exp_extensions.qmd) |
+| Serve the same project in multiple languages | [Multilanguage Projects](exp_multilanguage.qmd) |
+| Look something up quickly | [Cheatsheet](exp_cheatsheet.qmd) |
+
+---
+
+## What you should already know
+
+This section assumes you are comfortable with the following from the previous levels:
+
+- Creating a Quarto **website**, **exercise sheet**, or **book** — [Getting Started](../../int/Qmd Files/Getting Started/getting_started.html)
+- Running **Python in the browser** with Pyodide — [Extensions](../../int/Qmd Files/Getting Started/beg_extensions.html)
+- What interactive Quarto output looks like — [Example Page](../../beg/Qmd Files/Example Page/index_beg.html)
